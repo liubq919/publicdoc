@@ -2,8 +2,8 @@
    <img width="200" src="avatar.png">
 </p>
 
-<center> 堡垒机自助化申请 </center>
-<center> (一) </center>
+<center> 堡垒机自助化申请(一) </center>
+<center> 场景分析与需求确认 </center>
 
 ### 在各公司中，资源申请，一直是一个人工参与度高，流程繁琐，审核慢的话题。堡垒机申请，就是其中的一个案例。
 
