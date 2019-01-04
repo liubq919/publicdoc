@@ -1,5 +1,3 @@
-<div style="text-align:center" markdown="1">
-
-![Alt Text](avatar.png "Caption")
-
-</div>
+<p align="center">
+   <img width="200" src="avatar.png">
+</p>
