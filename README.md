@@ -6,6 +6,13 @@
 
 #### 翻译系列
 
+[译者序](translator_foreword.md)
+
+
+|           标题             |             原文             |
+| --------------------------| ---------------------------- |
+| [微服务的设计与部署](microservices-design-deploy/README.md)    |  Microservices_Designing_Deploying|
+
 #### 原创系列
 
 | 标题                          |
