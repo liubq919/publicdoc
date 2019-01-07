@@ -39,3 +39,7 @@
 简而言之：你有一个成功的关键业务应用，已经成长成一个只有很少，如果有的话，能理解的庞大巨石应用。使用过时的，效率低下的技术去编写，使招聘有天赋的开发人员变的困难。应用难以伸缩与依赖。最终，应用的敏捷开发与交付将无法实现。
 
 所以你能对这一切做什么呢？
+
+#### 微服务-解决复杂性
+
+很多组织，比如亚马逊（Amazon），易贝（eBay），[奈飞（Netflix）](https://www.nginx.com/blog/microservices-at-netflix-architectural-best-practices/)，已经通过接纳被大家熟知的[微服务架构规范](http://microservices.io/patterns/microservices.html)解决了这些问题。
