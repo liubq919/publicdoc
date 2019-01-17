@@ -31,7 +31,7 @@
 | 容器 |  Kubernetes |
 
 ##### [1: 就地更新(In-Place Updates)](in_place_updates.md)
-#### 2: 使用 API Gateway
+##### 2: 滚动发布(Rolling Deployment)
 #### 3: 微服务架构的跨进程访问
 #### 4: 微服务架构中的服务发现
 #### 5: 微服务事件驱动的数据管理
