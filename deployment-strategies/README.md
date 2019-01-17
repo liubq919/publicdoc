@@ -30,9 +30,9 @@
 | 虚拟机 |   AWS   |
 | 容器 |  Kubernetes |
 
-##### [1: 就地更新(In-Place Deployment)](in_place_deployment.md)
-##### [2: 滚动发布(Rolling Deployment)](rolling_deployment.md)
-#### 3: 微服务架构的跨进程访问
+##### [1: 就地部署(In-Place Deployment)](in_place_deployment.md)
+##### [2: 滚动部署(Rolling Deployment)](rolling_deployment.md)
+##### [3: 蓝绿部署(Blue/Green Deployment)](blue_green_deployment.md)
 #### 4: 微服务架构中的服务发现
 #### 5: 微服务事件驱动的数据管理
 #### 6: 选择微服务的部署方案
