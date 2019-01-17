@@ -10,7 +10,7 @@
 
 | 部署速度 |  资源消耗  | 服务不可用时间  | 回滚时间  | 对用户的影响|
 | -------| ---------| --------| --------| --------|
-| :sun_with_face::sun_with_face::sun_with_face::sun_with_face::sun_with_face: |  :sun_with_face:   | :sun_with_face:   | :sun_with_face: | :sun_with_face: :sun_with_face: |
+| :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: |  :sun_with_face:   | :sun_with_face:   | :sun_with_face: | :sun_with_face: :sun_with_face: |
 
 ##### 注
     由于kubernetes中，服务运行载体的最小单位是pod，而pod无重启概念，所以本模式，更多的适用于虚拟机
