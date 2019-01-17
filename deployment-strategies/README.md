@@ -30,7 +30,7 @@
 | 虚拟机 |   AWS   |
 | 容器 |  Kubernetes |
 
-##### [1: 就地更新(In-Place Updates)](in_place_updates.md)
+##### [1: 就地更新(In-Place Deployment)](in_place_deployment.md)
 ##### [2: 滚动发布(Rolling Deployment)](rolling_deployment.md)
 #### 3: 微服务架构的跨进程访问
 #### 4: 微服务架构中的服务发现

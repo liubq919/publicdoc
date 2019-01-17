@@ -1,8 +1,8 @@
 <p align="center">
-   <img width="200" src="ru.png">
+   <img width="200" src="RD.png">
 </p>
 
-#### 滚动更新
+#### 滚动部署
     在提供服务的载体中，逐渐升级或者替换服务的版本
 
 ##### 注：
