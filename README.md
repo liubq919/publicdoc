@@ -18,3 +18,4 @@
 | 标题                          |
 | ---------------------------- |
 | [堡垒机自助化申请](bhapp/README.md)         |
+| [发布模式](deployment-strategies/README.md)         |
