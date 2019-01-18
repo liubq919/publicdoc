@@ -36,4 +36,4 @@
 ##### [4: 重建部署(Recreate Deployment)](recreate_deployment.md)
 ##### [5: 红黑部署(Red/Black Deployment)](red_black_deployment.md)
 ##### [6: 金丝雀部署(Canary Deployment)](canary_deployment.md)
-#### 7: 将巨石应用重构成微服务
+##### [7: 不可变/用完及丢弃部署(Immutable/Disposable Deployment)](immutable_disposable_deployment.md)
