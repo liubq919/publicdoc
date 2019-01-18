@@ -1,5 +1,5 @@
 <p align="center">
-   <img width="200" src="BGD.png">
+   <img width="200" src="blue-green.png">
 </p>
 
 #### 蓝绿部署

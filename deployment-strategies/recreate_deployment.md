@@ -1,5 +1,5 @@
 <p align="center">
-   <img width="200" src="RD.png">
+   <img width="200" src="recreate.png">
 </p>
 
 #### 重建部署

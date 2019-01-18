@@ -1,5 +1,5 @@
 <p align="center">
-   <img width="200" src="IPD.png">
+   <img width="200" src="in-place.png">
 </p>
 
 #### 就地部署
