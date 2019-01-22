@@ -80,22 +80,22 @@ API Gateway也有一些缺点。API Gateway还是另一个必须被开发，部�
 重要的是，更新API Gateway的过程尽可能轻量级。不然，开发人员将被迫排队等候以更新Gateway。尽管存在这些缺点，但是对大部分现实世界中的应用来说，使用API Gateway是有意义的。
 
 ### 实现API Gateway
-现在我们已经了解了使用API Gateway的动机和权衡，让我们来看看您需要考虑的各种设计问题。
+现在我们已经了解了使用API Gateway的动机和权衡，让我们来看看您需要考虑的各种设计问题。
 
-#### 性能与可扩展性
-只有少数公司能以Netflix的规模运营，每天需要处理数十亿条请求。但是，对大部分应用来说，API Gateway的性能与可扩展性通常来说是很重要的。因此，在支持异步，非堵塞I/O的平台上构建API Gateway，有很多不同的技术可以被使用以实现一个可扩展的API Gateway。在JVM平台，你可以使用基于NIO的框架，比如Netty, Vertx, Spring Reactor或者JBoss Undertow中的一个。在非JVM平台一个流行的选择是Node.js，一个基于Chrome JavaScript引擎构建的平台。另一个选择是使用NGINX Plus。
+#### 性能与可扩展性
+只有少数公司能以Netflix的规模运营，每天需要处理数十亿条请求。但是，对大部分应用来说，API Gateway的性能与可扩展性通常来说是很重要的。因此，在支持异步，非堵塞I/O的平台上构建API Gateway，有很多不同的技术可以被使用以实现一个可扩展的API Gateway。在JVM平台，你可以使用基于NIO的框架，比如Netty, Vertx, Spring Reactor或者JBoss Undertow中的一个。在非JVM平台一个流行的选择是Node.js，一个基于Chrome JavaScript引擎构建的平台。另一个选择是使用NGINX Plus。
 
 NGINX Plus提供了成熟，可扩展，高性能的web服务器与反向代理，易于部署，配置与可编程。NGINX Plus可以管理认证，访问控制，负载均衡请求，缓存响应，也提供应用程序感知的健康检查与监控。
 
-#### 使用响应式变成模型
-API Gateway通过简单地将它们路由到适当的后端服务来处理一些请求，调用多个后端服务然后聚合结果来处理其他请求。有一些请求，比如商品详情请求，对于后端服务的请求是独立于其它服务的。为了最小化响应时间，API Gateway应该同时执行独立的请求。
+#### 使用响应式变成模型
+API Gateway通过简单地将它们路由到适当的后端服务来处理一些请求，调用多个后端服务然后聚合结果来处理其他请求。有一些请求，比如商品详情请求，对于后端服务的请求是独立于其它服务的。为了最小化响应时间，API Gateway应该同时执行独立的请求。
 
-但是，有些时候，请求之间有依赖关系。在将请求路由到后端服务之前，API Gateway可能首先需要调用验证服务来验证请求。同样，为了检索用户心愿单中的商品信息，API Gateway必须首先检索包含此信息的客户简况，然后检索每一个商品的信息。API合成的另一个有趣的例子是Netflix Video Grid。
+但是，有些时候，请求之间有依赖关系。在将请求路由到后端服务之前，API Gateway可能首先需要调用验证服务来验证请求。同样，为了检索用户心愿单中的商品信息，API Gateway必须首先检索包含此信息的客户简况，然后检索每一个商品的信息。API合成的另一个有趣的例子是Netflix Video Grid。
 
-使用传统的异步callback方式编写API合成代码会很快的将你带入到callback地狱。代码会变的紊乱，难以理解，易于出错。以声明式编写API Gateway代码的一个更好方式是使用响应式方法。响应式抽象的例子有Scala中的Future，Java8中的CompletableFuture，JavaScript中的Promise。也有Reactive的拓展（Rx或者ReactiveX），最初是由Microsoft为.NET而开发。Netflix为JVM创建了RxJava，专门用户他们的API Gateway。还有用于JavaScript的RxJS，它可以在浏览器和Node.js中运行。 使用响应式方法将使您能够编写简单而有效的API Gateway代码。
+使用传统的异步callback方式编写API合成代码会很快的将你带入到callback地狱。代码会变的紊乱，难以理解，易于出错。以声明式编写API Gateway代码的一个更好方式是使用响应式方法。响应式抽象的例子有Scala中的Future，Java8中的CompletableFuture，JavaScript中的Promise。也有Reactive的拓展（Rx或者ReactiveX），最初是由Microsoft为.NET而开发。Netflix为JVM创建了RxJava，专门用户他们的API Gateway。还有用于JavaScript的RxJS，它可以在浏览器和Node.js中运行。 使用响应式方法将使您能够编写简单而有效的API Gateway代码。
 
 ### 服务调用
-基于微服务的应用是一个分布式系统，必须使用进程间通信机制。进程间通信有两种形式。一个是使用异步的，基于消息的机制。有一些实现使用消息组件，比如JMS或者AMQP。其它的，有Zeromq，无代理，服务直接通信。
+基于微服务的应用是一个分布式系统，必须使用进程间通信机制。进程间通信有两种形式。一个是使用异步的，基于消息的机制。有一些实现使用消息组件，比如JMS或者AMQP。其它的，有Zeromq，无代理，服务直接通信。
 
 进程间通信的另一个形式是同步机制，比如HTTP或者Thrift。一个系统通常会同时使用同步与异步。每一种形式甚至可能会使用多种实现。最终，API Gateway将需要支持各种各样的通信机制。
 
