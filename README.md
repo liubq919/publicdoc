@@ -17,5 +17,5 @@
 
 | 标题                          |
 | ---------------------------- |
-| [堡垒机自助化申请](bhapp/README.md)         |
-| [发布模式](deployment-strategies/README.md)         |
+| [堡垒机自助化申请](https://github.com/liubq919/bhapp-doc)         |
+| [发布模式](https://github.com/liubq919/deployment-strategies_cn)         |
