@@ -11,7 +11,7 @@
 
 |           标题             |             原文             |
 | --------------------------| ---------------------------- |
-| [微服务的设计与部署](microservices-design-deploy/README.md)    |  Microservices_Designing_Deploying|
+| [微服务的设计与部署](https://github.com/liubq919/microservices-design-deploy_cn)    |  Microservices_Designing_Deploying|
 
 #### 原创系列
 
