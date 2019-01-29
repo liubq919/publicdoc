@@ -12,6 +12,7 @@
 |           标题             |             原文             |
 | --------------------------| ---------------------------- |
 | [微服务的设计与部署](https://github.com/liubq919/microservices-design-deploy_cn)    |  Microservices_Designing_Deploying|
+| [基于AWS的蓝/绿部署](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)    |  AWS_Blue_Green_Deployments|
 
 #### 原创系列
 
