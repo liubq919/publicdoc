@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: kubia
+  spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: kubia
+      version: v2
+    sessionAffinity: None

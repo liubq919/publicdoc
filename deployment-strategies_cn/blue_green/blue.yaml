@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    name: kubia-blue
+  spec:
+    replicas: 1
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    minReadySeconds: 10
+    template:
+      metadata:
+        labels:
+          app: kubia
+          version: v1
+      spec:
+        containers:
+        - name: kubia
+          image: luksa/kubia:v1
+          ports:
+          - containerPort: 8080
+          resources:
+            requests:
+              memory: "64M"
+              cpu: "100m"
+            limits:
+              memory: "128M"
+              cpu: "100m"
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: kubia
+  spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: kubia
+    sessionAffinity: None
