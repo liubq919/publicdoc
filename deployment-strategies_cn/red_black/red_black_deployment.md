@@ -3,7 +3,7 @@
 </p>
 
 ### 红黑部署
-    红黑部署，最早由Netfilx提出与实践，是一种将通过测试后的新版本做到立刻上线的部署方案
+    红黑部署，最早由Netfilx提出与实践，是一种将通过测试后的新版本做到立刻上线，也可随时回滚的部署方案
 
 #### 注：
     红黑部署与蓝绿部署很相似，只不过红黑部署在切换版本的时候，不会像蓝绿部署那样平滑
@@ -30,7 +30,7 @@
 #### 实现方案
 
 ##### AWS
-由于蓝绿部署与红黑部署最大的差别就是平滑过度，所以用户可以参考AWS_Blue_Green_Deployments的[whitepaper](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)中所描述的方案，当升级版本时，做到整体切换，而非平滑过度即可。
+由于蓝绿部署与红黑部署最大的差别就是平滑过度，所以用户可参考AWS_Blue_Green_Deployments的[whitepaper](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)中所描述的方案，当升级版本时，做到整体切换，而非平滑过度即可。
 
 ##### kubernetes
 基于不同的边界，可以有以下方案
