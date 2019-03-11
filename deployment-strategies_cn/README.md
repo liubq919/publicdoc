@@ -17,7 +17,7 @@
 
 同样，应用运行的载体，有虚拟机，也有容器。在每一种载体下，实现相应的部署策略，都有差异，管理人员都必须熟练掌握。
 
-[DevOps Engineering on AWS](https://aws.amazon.com/training/course-descriptions/devops-engineering/)，其整个课程体系对于在AWS下的Devops做出了详细的介绍与实践。同样，[AWS Certified DevOps Engineer - Professional](https://aws.amazon.com/certification/certified-devops-engineer-professional/)的考试中，对于[发布策略与自动化实现](https://d1.awsstatic.com/training-and-certification/docs-devops-pro/AWS_certified_devops_engineer_professional_blueprint.pdf)的考核，也占据了55%，看来发布策略与自动化实现是一个合格的Devops人员必须要掌握的技能了。
+[DevOps Engineering on AWS](https://aws.amazon.com/training/course-descriptions/devops-engineering/)，其整个课程体系对于在AWS下的Devops做出了详细的介绍与实践。同样，[AWS Certified DevOps Engineer - Professional](https://aws.amazon.com/certification/certified-devops-engineer-professional/)的考试中，对于[发布策略与自动化实现](https://d1.awsstatic.com/training-and-certification/docs-devops-pro/AWS_certified_devops_engineer_professional_blueprint.pdf)的考核，也占据了55%，从中可以看出AWS对于该模块的重视度。
 
 |           Domain             |             % of Examination            |
 | --------------------------| ---------------------------- |
