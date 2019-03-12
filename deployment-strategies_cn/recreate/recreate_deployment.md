@@ -46,5 +46,5 @@
 
 3. 查看pod的状态
    ```
-   kubectl get pods | grep kubia
+   kubectl get pods -l app=kubia --show-labels
    ```

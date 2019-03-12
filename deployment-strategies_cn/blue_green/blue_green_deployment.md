@@ -50,7 +50,7 @@
 3. 查看pod的状态
    ```
    kubectl get service kubia
-   kubectl get pods --show-labels | grep kubia
+   kubectl get pods -l app=kubia --show-labels
    ```
 4. 访问kubia服务，可以看到v1与v2会间隔出现
 

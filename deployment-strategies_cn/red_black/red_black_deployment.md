@@ -50,7 +50,7 @@
 
 3. 查看pod的状态
    ```
-   kubectl get deploy kubia kubia-v2
+   kubectl get pods -l app=kubia --show-labels
    ```
 4. 切换版本
    ```

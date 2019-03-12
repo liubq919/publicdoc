@@ -50,6 +50,6 @@
 3. 查看pod的更新状态
    ```
    kubectl get deploy kubia
-   kubectl get pods | grep kubia
+   kubectl get pods -l app=kubia --show-labels
    ```
 
