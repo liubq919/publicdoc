@@ -1,0 +1,12 @@
+Role=service-a
+InstanceType=c3.large
+MaxInstances=10
+MinInstances=2
+InstanceCount=2
+PrivateSubnets=subnet-a,subnet-b
+InstanceSecurityGroup=sg-a
+HealthCheckURL=/healthcheck
+ElbName=service-a
+CronInstanceCount=1
+CronMaxInstances=1
+CronMinInstances=1

@@ -1,0 +1,50 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Service in the VPC with Auto-Scaling and ELBs",
+    "Parameters": {
+        "VpcId": {},
+        "PrivateSubnets": {},
+        "AZs": {},
+        "InstanceType": {},
+        "ServicePort": {},
+        "MgmtSecurityGroup": {},
+        "InstanceSecurityGroup": {},
+        "MaxInstances": {},
+        "MinInstances": {},
+        "InstanceCount": {},
+        "CPUHighThreshold": {},
+        "CPULowThreshold": {},
+        "ElbName": {},
+        "Role": {},
+        "HealthCheckURL": {},
+        "CronMaxInstances": {},
+        "CronMinInstances": {},
+        "CronInstanceCount": {}
+    },
+    "Mappings": {
+        "AWSInstanceType2Arch": {},
+        "AWSRegionArch2AMI": {}
+    },
+    "Resources": {
+        "ServiceGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {}
+        },
+        "LaunchConfig": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {}
+        },
+        "ElasticLoadBalancer": {
+            "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties": {}
+        },
+        "ScaleUpPolicy": {
+            "Type": "AWS::AutoScaling::ScalingPolicy",
+            "Properties": {}
+        },
+        "ScaleDownPolicy": {
+            "Type": "AWS::AutoScaling::ScalingPolicy",
+            "Properties": {}
+        }
+    }
+}

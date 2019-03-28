@@ -1,0 +1,3 @@
+- hosts:  mq-service-a
+  roles:
+    - mq-v1

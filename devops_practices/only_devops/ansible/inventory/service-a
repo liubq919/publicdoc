@@ -1,0 +1,14 @@
+# Service RPM
+rpm: service-a-1.3
+
+# mq settings
+mq_admin_user: service-a
+mq_admin_pass: fake_mq_password
+
+# postgresql settings
+dbname: service-a
+name: user_1
+password: fake_db_password_1
+
+# redis settings
+redis_pass: fake_redis_pass

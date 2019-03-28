@@ -1,0 +1,4 @@
+- hosts: redis-service-a
+  serial: 1
+  roles:
+    - redis-v1

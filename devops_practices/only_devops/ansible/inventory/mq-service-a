@@ -1,0 +1,2 @@
+mq_admin_user: service-a
+mq_admin_pass: fake_mq_password
