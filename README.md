@@ -2,8 +2,6 @@
    <img width="200" src="avatar.png">
 </p>
 
-> 在这里，将提供翻译的文档或者书籍，原创系列等。
-
 #### 翻译系列
 
 [译者序](translator_foreword.md)
