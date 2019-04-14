@@ -66,13 +66,13 @@ GIL易于实现，并且很容易添加到Python中。它为单线程程序提�
 
 ### 对多线程Python程序的影响
 
-当你查看典型的Python程序或任何计算机程序时，那些在性能上受CPU限制的程序与受I/O限制的程序之间存在差异。
+当你查看典型的Python程序或任何计算机程序时，那些在性能上受CPU限制的程序与I/O密集型的程序之间存在差异。
 
 计算密集型（CPU-bound）程序是那些将CPU推向极限的程序。这包括进行数学计算的程序，如矩阵乘法，搜索，图像处理等。
 
-受I/O限制的程序是花费时间等待输入/输出的程序，这些输入/输出可以来自用户，文件，数据库，网络等。
+I/O密集型的程序是花费时间等待输入/输出的程序，这些输入/输出可以来自用户，文件，数据库，网络等。
 
-受I/O限制的程序有时必须等待大量时间，直到它们从源获得所需内容，因为源可能需要在输入/输出准备好之前进行自己的处理，例如，a user thinking about what to enter into an input prompt or a database query running in its own process.
+I/O密集型程序有时必须等待大量时间，直到它们从源获得所需内容，因为源可能需要在输入/输出准备好之前进行自己的处理，例如，a user thinking about what to enter into an input prompt or a database query running in its own process.
 
 我们来看一个执行倒计时的简单计算密集型程序：
 
@@ -136,10 +136,82 @@ Time taken in seconds - 6.924342632293701
 
 正如您所看到的，两个版本完成所需的时间几乎相同。在多线程版本中，GIL防止计算密集型线程以并行方式执行。
 
-GIL对受I/O限制的多线程程序的性能影响不大，因为线程在等待I/O时会共享锁。
+GIL对I/O密集型的多线程程序的性能影响不大，因为线程在等待I/O时会共享锁。
 
 但是线程完全是计算密集型（CPU-bound）程序，比如，使用线程处理部分图像的程序，不仅会因锁而变成单线程，而且还会看到执行时间的增加，如上例所示，与完全使用单线程编写的场景相比。
 
 该执行时间的提升是获取与释放的开销，此开销由锁添加。
 
 ### 为什么GIL还没有被移除？
+
+Python 3确实有机会从头开始许多特性，在这个过程中，它破坏了一些现有的C扩展，然后需要对这些扩展进行更新，并将其移植到Python 3中。这就是Python 3的早期版本被社区接受度慢的原因。
+
+但为什么GIL并没有一起被删除？
+
+与单线程性能的python2相比，删除GIL会使python3的速度变慢，你可以想象这会导致什么结果。你不能否认GIL的单线程性能优势。所以结果是python 3仍然有GIL。
+
+但是Python 3确实对现有GIL进行了重大改进-
+
+我们讨论了GIL对“仅计算密集型”和“仅I/O密集型”多线程程序的影响，但是对那些有些线程是计算密集型，有些是I/O密集型的程序怎么样呢？
+
+在这样的程序中，Python的GIL被熟知以通过不给I/O密集型线程从计算密集型线程中获取GIL的任何机会以饥饿I/O密集型线程。
+
+这是因为Python中内置的一种机制，它强制线程在连续使用固定时间间隔后释放GIL，如果没有其他线程获得GIL，则该线程可以继续使用它。
+
+```python
+>>> import sys
+>>> # The interval is set to 100 instructions:
+>>> sys.getcheckinterval()
+100
+```
+
+这种机制的问题是，大多数时候计算密集型线程会在其他线程获得GIL之前**重新**获得GIL。David Beazley对此进行了研究，供参考的[可视化](https://www.dabeaz.com/blog/2010/01/python-gil-visualized.html)。
+
+Antoine Pitrou在2009年的Python 3.2中修复了这个问题，他添加了一种机制，可以查看由其它线程的发起的且被丢弃的GIL请求数，在其他线程有机会运行之前不允许当前线程重新获取GIL。
+
+
+### 如何处理Python的GIL？
+
+如果GIL导致你出现问题，可以尝试以下几种方法：
+
+
+**多进程与多线程** - 最流行的方法是使用多进程方法，你可以使用多个进程而不是线程。每个Python进程都有自己的Python解释器和内存空间，因此GIL不会成为问题。Python有一个multiprocessing 模块，可以让我们像这样轻松地创建流程：
+
+```python
+from multiprocessing import Pool
+import time
+
+COUNT = 50000000
+def countdown(n):
+    while n>0:
+        n -= 1
+
+if __name__ == '__main__':
+    pool = Pool(processes=2)
+    start = time.time()
+    r1 = pool.apply_async(countdown, [COUNT//2])
+    r2 = pool.apply_async(countdown, [COUNT//2])
+    pool.close()
+    pool.join()
+    end = time.time()
+    print('Time taken in seconds -', end - start)
+```
+
+在我的系统上运行此命令给出了此输出：
+
+```shell
+$ python multiprocess.py
+Time taken in seconds - 4.060242414474487
+```
+
+与多线程版本相比，性能有了不错的提升，对吧。
+
+时间没有下降到我们上面看到的一半，因为进程管理有自己的开销。多个进程比多个进程重，因此请记住，这可能会成为一个扩展瓶颈。
+
+**Python解释器的替代** - Python有多个解释器实现。分别用C、Java、c#和Python编写的CPython、Jython、IronPython和PyPy，这些解释器都是是最流行的。GIL只存在于原始的Python实现(即CPython)中。如果你的程序及其库可在其它解释器中使用，那么你也可以试用其它的解释器。
+
+**请静候结果** - 虽然许多Python用户利用了GIL的单线程性能优势。多线程程序员不必烦恼，因为Python社区中一些最聪明的人正在努力从CPython中删除GIL。一个熟知的尝试是[Gilectomy](https://github.com/larryhastings/gilectomy)。
+
+Python GIL通常被认为是一个神秘而困难的话题。但请记住，作为Python支持者，如果你正在编写C扩展或者在程序中使用计算密集型的多线程，那么通常只会在这些情况下才受到GIL的影响。
+
+在这种情况下，本文将为你提供理解GIL是什么以及如何在自己的项目中处理它所需的一切。如果你想了解GIL的底层内部工作原理，我建议你观看David Beazley的[《Understanding the Python GIL》](https://www.youtube.com/watch?v=Obt-vMVdM8s&feature=youtu.be)的演讲。
