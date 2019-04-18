@@ -13,6 +13,7 @@
 | [AWS的蓝/绿部署](blue_green_deployment_on_aws/README.md)    |  AWS_Blue_Green_Deployments|
 | [AWS Lambda无服务器架构(概述与最佳实践)](Serverless_Architectures_with_AWS_Lambda_cn/README.md) |  Serverless Architectures with AWS Lambda(Overview and Best Practices)|
 | [Gitflow 工作流](gitflow-workflow-cn/README.md) |  Gitflow Workflow|
+| [Python 系列章节](articles_for_python/README.md) |  Acticles for Python|
 
 #### 原创系列
 
