@@ -76,7 +76,7 @@ at present:
       "Nike", "Adidas", "PEAK"
    ]
 }
-after modification:
+desired:
 {
    "code": 200,
    "data": [
