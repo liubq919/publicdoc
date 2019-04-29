@@ -2,7 +2,7 @@
    <img width="200" src="only_devops.png">
 </p>
 
-#### Devops的角色内容
+#### Devops角色
 
 在探索Devops的道路上，使用CI工具，实现初步自动化，是很多公司做出的改变。
 
