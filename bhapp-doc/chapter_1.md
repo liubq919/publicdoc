@@ -6,7 +6,7 @@
 
 大概流程如下：
 
-![流程图](bh_app_manually.jpg)
+![流程图](images/bh_app_manually.jpg)
 
 通过此图，可以发现有两处繁琐的环节：
 1. 审核
@@ -34,7 +34,7 @@
 
 大概流程如下:
 
-![流程图](api_flow.jpg)
+![流程图](images/api_flow.jpg)
 
 ##### 四：总结
 通过申请流程图与api调用流程图，发现在整个申请流程中，有并行，有串行。

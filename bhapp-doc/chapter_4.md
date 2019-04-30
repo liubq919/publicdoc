@@ -14,7 +14,7 @@
 总之，框架带来了便利，但也会形成依赖。
 
 #### 原子性
-![atomicity.png](atomicity.png)
+![atomicity.png](images/atomicity.png)
 
 [上图](https://www.processon.com/view/link/5c492dbfe4b056ae29fb2676)，有一个问题，当消费者从exchange中消费信息，并调用相应的API，该API在创建相应资源后，必须要发送消息到下一个exchange。
 比如：bh-identity-consumer从bh.audit.pass中消费消息，然后调用API：add-identity。API：add-identity在成功添加资源后，需要向exchange：bh.rule.ready发送消息。
@@ -33,13 +33,13 @@
 
 serverless支持不同的事件源，通过配合不同的事件源，也能很简单的处理原子性的问题。因此，无论在资源的消耗，还是在架构的实现上，serverless都比传统方案具有更明显的优势。
 
-![aws-sqs-lambda.jpg](aws-sqs-lambda.jpg)
+![aws-sqs-lambda.jpg](images/aws-sqs-lambda.jpg)
 
 上图是基于AWS产品与服务实现的架构方案。此方案做到了按照计算收费（而非资源），同样，由于AWS提供了多种事件源，我们也能解决原子性的问题。
 
 通过以上的三点，可以看到有很多细节与点需要优化，如果大家不局限于堡垒机的业务场景，可以思考如何参照成熟的公有云方案，为公司的服务架构提供一定的借鉴。
 
-最后，提供参考资料，由NGINX官方出版的[微服务的设计与部署](https://github.com/liubq919/microservices-design-deploy_cn)电子书（已翻译成中文版）。该书从多个方面完整介绍了微服务的各种优缺点与各种解决方案。有兴趣的读者可以参考下。
+最后，提供参考资料，由NGINX官方出版的[微服务的设计与部署](../microservices-from-design-to-deploy_cn/README.md)电子书。该书从多个方面完整介绍了微服务的各种优缺点与各种解决方案。有兴趣的读者可以参考下。
 
 
 ## 系列总结

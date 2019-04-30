@@ -14,7 +14,7 @@
 
 #### 候选方案一：
 使用传统，很暴力的实现方式，完全顺序执行：
-![bhapp-seq-flow](bhapp-seq-flow.jpg)
+![bhapp-seq-flow](images/bhapp-seq-flow.jpg)
 
 此方案有几个问题：
 1. 编写复杂，任何一个独立的步骤，将需要调用几个接口，调试与编写都很困难
@@ -26,7 +26,7 @@
 IPC(Inter-Process Communication)（进程通信）方案
 
 下图，是实际应用中，一个很好的通过订阅，推送机制，来实现复杂业务场景的例子。
-![ipc](ipc.png)
+![ipc](images/ipc.png)
 
 从此图可以看出，
 1. 业务逻辑之间，通过推送与订阅的机制来进行消息沟通，一对多，还是一对一，只依赖具体的业务场景
@@ -40,7 +40,7 @@ IPC(Inter-Process Communication)（进程通信）方案
 注：在上一篇中，前端页面的向导模式申请的验证，如人员，资产等，只需在页面里调用相应接口与添加步骤审核，所以在这里就不再详细介绍。
 
 下图将展示我们最终的[设计流程图](https://www.processon.com/view/link/5c492dbfe4b056ae29fb2676)方案:
-![bhapp-mq-flow](bhapp-mq-flow.jpg)
+![bhapp-mq-flow](images/bhapp-mq-flow.jpg)
 ##### 图解：
 1. 用户提交申请（调用相应的api），api将推送消息到exchange，相应的consumer将消费消息（向每一个管理员发送邮件）
 2. 管理员点击相应的链接（调用审核通过api），api发送相应的消息到exchange，每一个消费者调用相应的api，资源创建成功后，会发送相应的消息到exchange。
