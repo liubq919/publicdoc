@@ -5,31 +5,32 @@
 ## Python中的线程
 
 ### 目录
+
 - 什么是线程
 - 启动线程
-    - 守护线程
-    - join()一个线程
+  - 守护线程
+  - join()一个线程
 - 使用多线程
 - 使用ThreadPoolExecutor
 - 竞态条件
-    - 一个线程
-    - 两个线程
-    - 为什么这不是一个愚蠢的例子
+  - 一个线程
+  - 两个线程
+  - 为什么这不是一个愚蠢的例子
 - 使用锁完成基本同步
 - 死锁
 - 生产者-消费者线程
-    - 生产者-消费者使用锁
-    - 生产者-消费者使用Queue
+  - 生产者-消费者使用锁
+  - 生产者-消费者使用Queue
 - 线程对象
-    - Semaphore
-    - Timer
-    - Barrier
+  - Semaphore
+  - Timer
+  - Barrier
 - 总结：Python中的线程
-
 
 Python线程允许同时运行程序的不同部分，并可以简化设计。如果你对Python有一定的经验，并且希望使用线程加快程序的速度，那么本教程就是为你准备的！
 
 在本文中，你将学习到：
+
 - 什么是线程？
 - 如何创建线程并等待它们完成
 - 如何使用ThreadPoolExecutor
@@ -159,6 +160,7 @@ Main    : all done
 ```python
 # x.join()
 ```
+
 要让一个线程等待另一个线程完成，可以调用.join()。如果取消对该行的注释，主线程将暂停并等待线程x完成运行。
 
 你是否使用守护线程或普通线程在代码上测试了此功能?结果证明这无关紧要。如果使用.join()线程，则该语句将一直等待，直到任何一种线程完成。
@@ -170,6 +172,7 @@ Main    : all done
 通常，你会希望启动一些线程，并让它们执行有趣的工作。我们先看一下比较复杂的方法，然后再看比较简单的方法。
 
 启动多线程的较困难的方法是你已经知道的方案：
+
 ```python
 import logging
 import threading
@@ -197,9 +200,11 @@ if __name__ == "__main__":
         thread.join()
         logging.info("Main    : thread %d done", index)
 ```
+
 此代码使用你在上述看到的相同机制来启动线程，创建Thread对象，然后调用.start()。程序保存一个线程对象列表，以便稍后使用.join()等待它们。
 
 多次运行这段代码可能会产生一些有趣的结果。这是我的机器输出的一个例子：
+
 ```shell
 $ ./multiple_threads.py
 Main    : create and start thread 0.
@@ -232,6 +237,7 @@ Main    : thread 2 done
 创建它的最简单方法是通过上下文管理器，使用with语句管理池的创建和销毁。
 
 下面的__main__是使用ThreadPoolExecutor重写的上述示例：
+
 ```python
 import concurrent.futures
 
@@ -306,6 +312,7 @@ FakeDatabase跟踪一个数字:.value。这将是你看到竞态条件的共享�
 在这种情况下，从数据库中读取只意味着将.value赋值到本地变量。将本地变量加一，然后再.sleep()。最后，再将本地变量赋值给.value。
 
 以下是你将如何使用此FakeDatabase：
+
 ```python
 if __name__ == "__main__":
     format = "%(asctime)s: %(message)s"
@@ -400,5 +407,128 @@ Thread 1现在唤醒并保存其local_copy版本然后终止，为Thread 2提供
 
 #### 为什么这不是一个愚蠢的例子
 
+以上示例旨在确保每次运行程序时都会出现竞争情况。因为操作系统可以随时交换线程，所以可以在读取x的值之后但在写回增量值之前中断x = x + 1之类的语句。
 
+有关这种情况的详细信息非常有趣，但本文其余部分并不需要，因此请随意跳过此隐藏部分。
 
+既然您已经看到了实际的竞态条件，让我们来看看如何解决它们!
+
+### 使用锁完成基本同步
+
+有许多方法可以避免或解决竞争条件。你不会在这里看到所有这些，但有一些经常使用。让我们从Lock开始吧。
+
+要解决上面的竞争条件，你需要找到一种方法，一次只允许一个线程进入代码的 读-修改-写 部分。最常用的方法是Python中的Lock。在其他一些语言中，这个想法被称为mutex。 Mutex来自MUTual EXclusion，这正是Lock所做的。
+
+锁是一种类似于通行证的对象。每次只有一个线程可以拥有锁。任何其他想要锁的线程必须等待，直到锁的所有者放弃它。
+
+完成此任务的基本函数是.acquire()和.release()。一个线程将调用my_lock.acquire()来获取锁。如果锁已被持有，则调用线程将等待它被释放。这里有一点很重要。如果一个线程获得了锁，但从不将它释放，你的程序将被卡住。稍后你会读到更多。
+
+幸运的是，Python的锁也将作为上下文管理器运行，所以你可以在with语句中使用它，并且当with块出于任何原因退出时，它会自动释放。
+
+让我们看看添加了Lock的FakeDatabase。调用函数保持不变：
+
+```python
+class FakeDatabase:
+    def __init__(self):
+        self.value = 0
+        self._lock = threading.Lock()
+
+    def locked_update(self, name):
+        logging.info("Thread %s: starting update", name)
+        logging.debug("Thread %s about to lock", name)
+        with self._lock:
+            logging.debug("Thread %s has lock", name)
+            local_copy = self.value
+            local_copy += 1
+            time.sleep(0.1)
+            self.value = local_copy
+            logging.debug("Thread %s about to release lock", name)
+        logging.debug("Thread %s after release", name)
+        logging.info("Thread %s: finishing update", name)
+```
+
+除了添加一些调试日志以便更清楚地查看锁定之外，这里的主要更改是添加一个名为._lock的成员，这是一个threading.Lock()对象。._lock在未锁定状态下初始化，并由with语句锁定和释放。
+
+这里值得注意的是，运行这个函数的线程将一直持有这个锁，直到它完全更新完数据库为止。在本例中，这意味着它将在复制、更新、休眠并将值写回数据库时持有锁。
+
+如果运行此版本并将日志记录设置为警告级别，你将看到：
+
+```shell
+$ ./fixrace.py
+Testing locked update. Starting value is 0.
+Thread 0: starting update
+Thread 1: starting update
+Thread 0: finishing update
+Thread 1: finishing update
+Testing locked update. Ending value is 2.
+```
+
+看看这个。你的程序终于可以正常工作了。
+
+在__main__中配置日志记录输出后，你可以通过添加此语句将级别设置为DEBUG来打开完整日志记录：
+
+```python
+logging.getLogger().setLevel(logging.DEBUG)
+```
+
+在打开DEBUG日志的情况下运行这个程序，如下所示：
+
+```shell
+$ ./fixrace.py
+Testing locked update. Starting value is 0.
+Thread 0: starting update
+Thread 0 about to lock
+Thread 0 has lock
+Thread 1: starting update
+Thread 1 about to lock
+Thread 0 about to release lock
+Thread 0 after release
+Thread 0: finishing update
+Thread 1 has lock
+Thread 1 about to release lock
+Thread 1 after release
+Thread 1: finishing update
+Testing locked update. Ending value is 2.
+```
+
+在这个输出中，您可以看到Thread 0获得锁，并且在它进入睡眠状态时仍然持有锁。然后Thread 1启动并尝试获取相同的锁。因为线程0仍然持有它，线程1必须等待。这就是Lock提供的互斥。
+
+本文其余部分中的许多示例都将具有WARNING和DEBUG级别日志记录。 我们通常只显示WARNING级别输出，因为DEBUG日志可能非常冗长。在记录日志的情况下试用这些程序并查看它们做了什么。
+
+### 死锁
+
+在继续之前，你应该看看使用锁时的一个常见问题。正如所看到的，如果已经获得了锁，那么对.acquire()的第二个调用将一直等待，直到持有锁的线程调用.release()。你认为运行这段代码时会发生什么：
+
+```python
+import threading
+
+l = threading.Lock()
+print("before first acquire")
+l.acquire()
+print("before second acquire")
+l.acquire()
+print("acquired lock twice")
+```
+
+当程序第二次调用l.acquire()时，它会挂起等待Lock被释放。在此示例中，可以通过删除第二个调用来修复死锁，但在以下两个微妙的事情下通常发生死锁：
+
+1. 实现错误,未能正确的释放Lock
+2. 设计问题，其中一个工具程序需要由可能具有或不具有锁的函数调用
+
+第一种情况有时会发生，但使用Lock作为上下文管理器会大大减少频率。编写代码时建议尽可能以使用上下文管理器，因为它们有助于避免异常跳过.release()调用的情况。
+
+在某些语言中，设计问题可能有点棘手。值得庆幸的是，Python线程有第二个对象，称为RLock，专为这种情况而设计。它允许一个线程在调用.release()之前多次.acquire()一个RLock。该线程仍然需要调用.release()与调用.acquire()相同的次数，但无论如何都应该这样做。
+
+Lock和RLock是线程编程中用于防止竞态条件的两个基本工具。还有一些以不同方式工作的工具。在查看它们之前，让我们转向一个稍微不同的问题领域。
+
+### 生产者-消费者线程
+
+[生产者-消费者](https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem)问题是一个标准的计算机科学问题，用于研究线程或进程同步问题。你将看一下它的一个变体，以了解Python threading模块提供的基本类型。
+
+对于此示例，你将想象一个程序需要从网络读取消息并将其写入磁盘。程序在需要时不会请求消息。它必须监听，当消息到达时接收它们。这些信息不会以固定的速度，而是会以突发的方式发送。程序的这一部分称为生产者。
+
+另一方面，一旦有消息，你需要将其写入数据库。数据库访问速度很慢，但速度足以保持平均消息速度。当一连串的消息进入时，它还不足以跟上。这部分是消费者。
+
+在生产者和消费者之间，您将创建一个**Pipeline**，当了解不同的同步对象时，该**Pipeline**将会发生变化。
+
+这是基本布局。让我们看一下使用Lock的解决方案。它不能很完美地工作，但它使用你已经知道的工具，所以它是一个很好的起点。
