@@ -12,7 +12,7 @@
 - 使用多线程
 - 使用ThreadPoolExecutor
 - 竞态条件
-    - 单个线程
+    - 一个线程
     - 两个线程
     - 为什么这不是一个愚蠢的例子
 - 使用锁完成基本同步
@@ -162,3 +162,243 @@ Main    : all done
 要让一个线程等待另一个线程完成，可以调用.join()。如果取消对该行的注释，主线程将暂停并等待线程x完成运行。
 
 你是否使用守护线程或普通线程在代码上测试了此功能?结果证明这无关紧要。如果使用.join()线程，则该语句将一直等待，直到任何一种线程完成。
+
+### 使用多线程
+
+到目前为止，示例代码只使用了两个线程:主线程和一个你通过threading.Thread对象启动的线程。
+
+通常，你会希望启动一些线程，并让它们执行有趣的工作。我们先看一下比较复杂的方法，然后再看比较简单的方法。
+
+启动多线程的较困难的方法是你已经知道的方案：
+```python
+import logging
+import threading
+import time
+
+def thread_function(name):
+    logging.info("Thread %s: starting", name)
+    time.sleep(2)
+    logging.info("Thread %s: finishing", name)
+
+if __name__ == "__main__":
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+
+    threads = list()
+    for index in range(3):
+        logging.info("Main    : create and start thread %d.", index)
+        x = threading.Thread(target=thread_function, args=(index,))
+        threads.append(x)
+        x.start()
+
+    for index, thread in enumerate(threads):
+        logging.info("Main    : before joining thread %d.", index)
+        thread.join()
+        logging.info("Main    : thread %d done", index)
+```
+此代码使用你在上述看到的相同机制来启动线程，创建Thread对象，然后调用.start()。程序保存一个线程对象列表，以便稍后使用.join()等待它们。
+
+多次运行这段代码可能会产生一些有趣的结果。这是我的机器输出的一个例子：
+```shell
+$ ./multiple_threads.py
+Main    : create and start thread 0.
+Thread 0: starting
+Main    : create and start thread 1.
+Thread 1: starting
+Main    : create and start thread 2.
+Thread 2: starting
+Main    : before joining thread 0.
+Thread 2: finishing
+Thread 1: finishing
+Thread 0: finishing
+Main    : thread 0 done
+Main    : before joining thread 1.
+Main    : thread 1 done
+Main    : before joining thread 2.
+Main    : thread 2 done
+```
+
+如果仔细查看输出，你将看到所有三个线程都按照期望的顺序开始，但是在本例中，它们的结束顺序是相反的! 多次运行将产生不同的顺序。查找**Thread x: finishing**的消息，告诉你每个线程何时完成。
+
+线程的运行顺序由操作系统决定，并且很难预测。它可能(也很可能)因运行而异，所以在设计使用线程的算法时需要注意这一点。
+
+幸运的是，Python提供了几个基本类型，稍后你将看到它们，以帮助协调线程并使其一起运行。在此之前，让我们看看如何使管理一组线程变得更容易一些。
+
+### 使用ThreadPoolExecutor
+
+有一种方法比上面看到的方法更容易启动一组线程。它被称为ThreadPoolExecutor，是concurrent.futures(Python 3.2)标准库的一部分。
+
+创建它的最简单方法是通过上下文管理器，使用with语句管理池的创建和销毁。
+
+下面的__main__是使用ThreadPoolExecutor重写的上述示例：
+```python
+import concurrent.futures
+
+# [rest of code]
+
+if __name__ == "__main__":
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        executor.map(thread_function, range(3))
+```
+
+代码创建一个ThreadPoolExecutor作为上下文管理器，告诉它在池中需要多少工作线程。然后，它使用.map()遍历可迭代对象，比如以range(3)为例，将每个对象传递给池中的线程。
+
+with的末尾使ThreadPoolExecutor对池中的每个线程执行.join()。强烈建议在可能的情况下使用ThreadPoolExecutor作为上下文管理器，这样就不会忘记.join()线程。
+
+    注意：使用ThreadPoolExecutor可能会导致一些令人困惑的错误
+    例如，如果您调用一个不接受参数的函数，但将参数传入.map()，则线程将抛出异常。
+    不幸的是，ThreadPoolExecutor将隐藏该异常，并且(在上面的例子中)程序在没有输出的情况下终止。
+    刚开始调试时，这可能会让人很困惑
+
+运行经过修正的示例代码将生成如下所示的输出：
+
+```shell
+$ ./executor.py
+Thread 0: starting
+Thread 1: starting
+Thread 2: starting
+Thread 1: finishing
+Thread 0: finishing
+Thread 2: finishing
+```
+
+同样，请注意Thread 1是如何在Thread 0之前完成的。线程的调度是由操作系统完成的，并不遵循一个容易理解的计划。
+
+### 竞态条件
+
+在继续介绍Python线程中隐藏的其他一些特性之前，让我们先讨论一下在编写线程程序时会遇到的一个更困难的问题:[竞态条件](https://en.wikipedia.org/wiki/Race_condition)。
+
+一旦了解了竞态条件是什么，并且看到其中一个正在发生，你将继续学习标准库提供的一些基本类型，以防止竞态条件的发生。
+
+当两个或多个线程访问共享的数据或资源时，可能会出现竞争条件。在本例中，你将创建一个每次都会发生的大型竞态条件，但是请注意，大多数竞态条件并没有这么明显。通常情况下，它们很少发生，并且会产生令人困惑的结果。可以想象，这使得调试非常困难。
+
+幸运的是，这种竞态条件每次都会发生，你将详细地浏览一遍以解释发生了什么。
+
+对于本例，你将编写一个更新数据库的类。好吧，实际上并不需要数据库:你只需要伪造它，因为这不是本文的重点。
+
+你的FakeDatabase会有.__init__()和.update()方法。
+
+```python
+class FakeDatabase:
+    def __init__(self):
+        self.value = 0
+
+    def update(self, name):
+        logging.info("Thread %s: starting update", name)
+        local_copy = self.value
+        local_copy += 1
+        time.sleep(0.1)
+        self.value = local_copy
+        logging.info("Thread %s: finishing update", name)
+```
+
+FakeDatabase跟踪一个数字:.value。这将是你看到竞态条件的共享数据。
+
+.__init__()只是将.value初始化为0。到目前为止，一切顺利。
+
+.update()看起来有点奇怪。它模拟从数据库中读取值，对其进行一些计算，然后将新值写回数据库。
+
+在这种情况下，从数据库中读取只意味着将.value赋值到本地变量。将本地变量加一，然后再.sleep()。最后，再将本地变量赋值给.value。
+
+以下是你将如何使用此FakeDatabase：
+```python
+if __name__ == "__main__":
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+
+    database = FakeDatabase()
+    logging.info("Testing update. Starting value is %d.", database.value)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for index in range(2):
+            executor.submit(database.update, index)
+    logging.info("Testing update. Ending value is %d.", database.value)
+```
+
+程序创建了一个包含两个线程的ThreadPoolExecutor，然后在每个线程上调用.submit()，告诉它们运行database.update()。
+
+.submit（）有一个签名，允许将位置和命名参数传递给在线程中运行的函数：
+
+```python
+.submit(function, *args, **kwargs)
+```
+
+在上面的用法中，index作为第一个也是惟一一个位置参数传递给database.update()。在本文的后面章节中，你可以以类似的方式传递多个参数。
+
+由于每个线程运行.update()，.update()将.value与1相加，所以你可能希望在最后，database.value打印出来的是2。但如果是这样的话，你就不会看到这个例子了。如果运行上面的代码，输出如下所示：
+
+```shell
+$ ./racecond.py
+Testing unlocked update. Starting value is 0.
+Thread 0: starting update
+Thread 1: starting update
+Thread 0: finishing update
+Thread 1: finishing update
+Testing unlocked update. Ending value is 1.
+```
+
+你可能已经预料到会发生这种情况，但让我们看一下其中的具体细节，因为这将使这个问题的解决方案更容易理解。
+
+#### 一个线程
+
+在使用两个线程深入研究这个问题之前，让我们先后退一步，讨论一下线程如何工作的一些细节。
+
+你不会深入了解这里的所有细节，因为这在这个级别并不重要。我们还将以一种技术上不准确的方式简化一些事情，但会让你对正在发生的事情有正确的认识。
+
+当你告诉ThreadPoolExecutor运行每个线程时，你告诉它运行哪个函数以及传递给它什么参数: executor.submit(database.update, index)。
+
+这样做的结果是池中的每个线程都将调用database.update(index)。注意，database是对__main__中创建的一个FakeDatabase对象的引用。对该对象调用.update()将调用该对象的[实例方法](https://realpython.com/instance-class-and-static-methods-demystified/)。
+
+每个线程都有一个对同一个FakeDatabase对象database的引用。每个线程还将有一个惟一的值index，以使日志语句更易于阅读:
+
+![intro-threading-shared-database.webp](images/intro-threading-shared-database.webp)
+
+当线程开始运行.update()时，它拥有当前函数所有局部数据的自己版本。对于.update()，就是local_copy。这绝对是一件好事。否则，运行相同函数的两个线程总是会相互混淆。这意味着对函数作用域（或本地）的所有变量都是**线程安全**的。
+
+现在，你可以开始了解如果使用单个线程和单个调用.update（）运行上述程序时会发生的情况。
+
+下图展示了在如果只运行一个线程运行的情况下，.update()的逐步执行情况。语句显示在左侧，后面是一个图表，显示了线程的local_value和共享的database.value的值：
+
+![intro-threading-single-thread.webp](images/intro-threading-single-thread.webp)
+
+图表的布局是随着时间，从上到下的移动。它在Thread 1创建时开始，在终止时结束。
+
+当Thread 1启动时，FakeDatabase.value是0。方法中的第一行代码local_copy = self.value,，将0赋值给局部变量。接下来，使用local_copy += 1语句递增local_copy的值。可以看到Thread 1中的.value被设置为1。
+
+调用time.sleep()，这会使当前线程暂停，并允许其他线程运行。因为在这个例子中只有一个线程，所以没有效果。
+
+当Thread 1醒来并继续时，它将新值从local_copy赋值到FakeDatabase.value，然后线程就完成了。你可以看到database.value被设置为1。
+
+到目前为止，一切顺利。你运行了一次.update()而且FakeDatabase.value增加到1。
+
+#### 两个线程
+
+回到竞态条件，这两个线程将并发运行，但不是同时运行。它们将各自拥有local_copy的版本，并指向相同的database。正是这个共享database对象导致了这些问题。
+
+程序从Thread 1运行.update()开始：
+
+![intro-threading-two-threads-part1.webp](images/intro-threading-two-threads-part1.webp)
+
+当Thread 1调用time.sleep()时，它允许另一个线程开始运行。这就是事情变得有趣的地方。
+
+Thread 2启动并执行相同的操作。它还复制database.value到它的私有local_copy，而且这个共享database.value尚未更新：
+
+![intro-threading-two-threads-part2.webp](images/intro-threading-two-threads-part2.webp)
+
+当Thread 2最终进入休眠时，共享database.value仍然未修改，值还是0，并且local_copy的两个私有版本的值都是1。
+
+Thread 1现在唤醒并保存其local_copy版本然后终止，为Thread 2提供最终运行机会。Thread 2不知道Thread 1在睡眠时运行并更新了database.value，它将其local_copy的版本存储到database.value中，并将其设置为1：
+
+![intro-threading-two-threads-part3.webp](images/intro-threading-two-threads-part3.webp)
+
+这两个线程交错访问一个共享对象，覆盖彼此的结果。当一个线程释放内存或在另一个线程完成访问之前关闭文件句柄时，可能会出现类似的竞态条件。
+
+#### 为什么这不是一个愚蠢的例子
+
+
+
