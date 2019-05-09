@@ -587,3 +587,11 @@ if __name__ == "__main__":
         executor.submit(consumer, pipeline)
 ```
 
+这应该看起来相当熟悉，因为它接近前面示例中的__main__代码。
+
+请记住，可以通过取消注释此行来打开DEBUG日志记录以查看所有日志记录消息：
+
+```python
+# logging.getLogger().setLevel(logging.DEBUG)
+```
+
