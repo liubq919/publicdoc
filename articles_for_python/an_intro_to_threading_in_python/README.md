@@ -19,8 +19,8 @@
 - 使用锁完成基本同步
 - 死锁
 - 生产者-消费者线程
-  - 生产者-消费者使用锁
-  - 生产者-消费者使用Queue
+  - 使用锁的生产者-消费者
+  - 使用Queue的生产者-消费者
 - 线程对象
   - Semaphore
   - Timer
@@ -531,4 +531,59 @@ Lock和RLock是线程编程中用于防止竞态条件的两个基本工具。�
 
 在生产者和消费者之间，您将创建一个**Pipeline**，当了解不同的同步对象时，该**Pipeline**将会发生变化。
 
-这是基本布局。让我们看一下使用Lock的解决方案。它不能很完美地工作，但它使用你已经知道的工具，所以它是一个很好的起点。
+这是基本布局。让我们看一下使用Lock的解决方案。它不能很完美地工作，但它是用你已经知道的工具，所以它是一个很好的起点。
+
+#### 使用锁的生产者-消费者
+
+由于这是一篇关于Python线程的文章，而且你刚刚阅读了Lock基本类型，所以让我们尝试使用一个或两个锁的两个线程来解决这个问题。
+
+一般的设计是，有一个producer线程从伪网络中读取消息并将其放入Pipeline中：
+
+```python
+import random 
+
+SENTINEL = object()
+
+def producer(pipeline):
+    """Pretend we're getting a message from the network."""
+    for index in range(10):
+        message = random.randint(1, 101)
+        logging.info("Producer got message: %s", message)
+        pipeline.set_message(message, "Producer")
+
+    # Send a sentinel message to tell consumer we're done
+    pipeline.set_message(SENTINEL, "Producer")
+```
+
+要生成假消息，producer将获得一个介于1到100之间的随机数。它调用pipeline的.set_message()将其发送给consumer。
+
+生产者还使用SENTINEL值来指示消费者在其发送十个值后停止消费。这有点笨拙，但不要担心，在完成此示例后，你将看到摆脱此SENTINEL值的方法。
+
+pipeline的另一端是消费者：
+```python
+def consumer(pipeline):
+    """Pretend we're saving a number in the database."""
+    message = 0
+    while message is not SENTINEL:
+        message = pipeline.get_message("Consumer")
+        if message is not SENTINEL:
+            logging.info("Consumer storing message: %s", message)
+```
+
+消费者从pipeline中读取一条消息并将其写入一个伪数据库，在本例中，该数据库只是将其打印到显示中。如果它获取了SENTINEL值，它将从函数返回，函数将终止线程。
+
+在查看真正有趣的部分，管道之前，先展示__main__，生成线程的部分：
+
+```python
+if __name__ == "__main__":
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+    # logging.getLogger().setLevel(logging.DEBUG)
+
+    pipeline = Pipeline()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        executor.submit(producer, pipeline)
+        executor.submit(consumer, pipeline)
+```
+
