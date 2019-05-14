@@ -595,3 +595,74 @@ if __name__ == "__main__":
 # logging.getLogger().setLevel(logging.DEBUG)
 ```
 
+有必要遍历调试日志消息，以查看每个线程在何处获得和释放锁。
+
+现在让我们看看将消息从生产者传递给消费者的Pipeline:
+
+```python
+class Pipeline:
+    """
+    Class to allow a single element pipeline between producer and consumer.
+    """
+    def __init__(self):
+        self.message = 0
+        self.producer_lock = threading.Lock()
+        self.consumer_lock = threading.Lock()
+        self.consumer_lock.acquire()
+
+    def get_message(self, name):
+        logging.debug("%s:about to acquire getlock", name)
+        self.consumer_lock.acquire()
+        logging.debug("%s:have getlock", name)
+        message = self.message
+        logging.debug("%s:about to release setlock", name)
+        self.producer_lock.release()
+        logging.debug("%s:setlock released", name)
+        return message
+
+    def set_message(self, message, name):
+        logging.debug("%s:about to acquire setlock", name)
+        self.producer_lock.acquire()
+        logging.debug("%s:have setlock", name)
+        self.message = message
+        logging.debug("%s:about to release getlock", name)
+        self.consumer_lock.release()
+        logging.debug("%s:getlock released", name)
+```
+
+哇!有很多代码。其中相当高的百分比只是日志语句，以便更容易地查看语句运行时发生了什么。这是删除所有日志语句后的同样代码。
+
+```python
+class Pipeline:
+    """
+    Class to allow a single element pipeline between producer and consumer.
+    """
+    def __init__(self):
+        self.message = 0
+        self.producer_lock = threading.Lock()
+        self.consumer_lock = threading.Lock()
+        self.consumer_lock.acquire()
+
+    def get_message(self, name):
+        self.consumer_lock.acquire()
+        message = self.message
+        self.producer_lock.release()
+        return message
+
+    def set_message(self, message, name):
+        self.producer_lock.acquire()
+        self.message = message
+        self.consumer_lock.release()
+```
+
+这似乎更容易管理。此版本代码中的管道有三个成员：
+
+1. .message - 存储要传递的消息
+2. .producer_lock - 一个threading.Lock对象，限制producer线程对消息的访问
+3. .consumer_lock - 也是一个threading.Lock对象，限制consumer线程对消息的访问
+
+__init __()初始化这三个成员，然后在.consumer_lock上调用.acquire()。这是启动的状态。允许producer添加新消息，但consumer需要等到消息出现。
+
+.get_message()和.set_messages()几乎是对立的。.get_message()在consumer_lock上调用.acquire()，这将使consumer等待直到有消息可供消费。
+
+一旦consumer获得了.consumer_lock，它就会复制.message中的值，然后在.producer_lock上调用.release()。释放此锁，允许生产者将下一条消息插入pipeline中。
