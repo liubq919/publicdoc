@@ -6,7 +6,6 @@
 
 [译者序](translator_foreword.md)
 
-
 |           标题             |             原文             |
 | --------------------------| ---------------------------- |
 | [微服务从设计到部署](microservices-from-design-to-deploy_cn/README.md)    |  Microservices_From_Design_To_Deploy|
