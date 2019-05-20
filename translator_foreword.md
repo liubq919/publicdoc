@@ -12,6 +12,7 @@
 - [AWS的蓝/绿部署](blue_green_deployment_on_aws/README.md) - 基于AWS的服务与工具，描述了如何完成实现蓝绿部署
 - [AWS Lambda无服务器架构(概述与最佳实践)](Serverless_Architectures_with_AWS_Lambda_cn/README.md) - 当下最热的话题，在未来几年之内必能得到更大的重视，作为全球顶级web服务商，AWS是如何设计与解决serverless的普遍问题
 - [Gitflow 工作流](gitflow-workflow-cn/README.md) - 微服务的普及，团队必须使用更高效的协作模式，而合理规范的分支策略是完成此目标的第一步，也是CI规范化的入口。
+- [Python 系列章节](articles_for_python/README.md) - 整个系列，将着重介绍python中难以掌握的话题，比如GIL，多线程，并发，异步编程等。
 
 感谢互联网，让知识传播变的如此便捷，  
 感谢世界上每一位付出的你们，是你们让世界变的更美好，  

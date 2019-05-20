@@ -666,3 +666,4 @@ __init __()初始化这三个成员，然后在.consumer_lock上调用.acquire()
 .get_message()和.set_messages()几乎是对立的。.get_message()在consumer_lock上调用.acquire()，这将使consumer等待直到有消息可供消费。
 
 一旦consumer获得了.consumer_lock，它就会复制.message中的值，然后在.producer_lock上调用.release()。释放此锁，允许生产者将下一条消息插入pipeline中。
+
