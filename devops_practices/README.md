@@ -10,5 +10,6 @@ Devops，在从工具的使用，组织架构的调整再到文化层的采纳�
 - [Gitflow自动化实现](gitflow_auto/README.md) - 基于Gitflow标准，自动化实现后续的job
 - [代码编译与部署](code_build_ship/README.md) - 在虚拟机上部署服务的规范化与科学化实现
 - [Devops角色](only_devops/README.md) - 在工具层之上，再思考Devops人员应该如何调整自己的角色
+- [数据库及代码](database_as_code/README.md) - 使用[liquibase](https://www.liquibase.org/quickstart.html), 实现版本化，脱离手工完成数据库schema的更新
 
 希望上述的方案与实践能为读者带来某些参考，也希望能与你相互交流。
