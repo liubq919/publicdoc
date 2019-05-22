@@ -27,7 +27,7 @@
 ##### 实现方案
 
 ###### AWS
-请参考AWS_Blue_Green_Deployments的[whitepaper](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)。
+请参考AWS_Blue_Green_Deployments的[whitepaper](../../blue_green_deployment_on_aws/README.md)。
 
 ###### kubernetes
 基于不同的边界，都可以实现蓝/绿部署，我们介绍主流的且易于实现的几种

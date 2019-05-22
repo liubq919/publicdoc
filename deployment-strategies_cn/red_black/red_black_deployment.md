@@ -30,7 +30,7 @@
 #### 实现方案
 
 ##### AWS
-由于蓝绿部署与红黑部署最大的差别就是平滑过度，所以用户可参考AWS_Blue_Green_Deployments的[whitepaper](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)中所描述的方案，当升级版本时，做到整体切换，而非平滑过度即可。
+由于蓝绿部署与红黑部署最大的差别就是平滑过度，所以用户可参考AWS_Blue_Green_Deployments的[whitepaper](../../blue_green_deployment_on_aws/README.md)中所描述的方案，当升级版本时，做到整体切换，而非平滑过度即可。
 
 ##### kubernetes
 基于不同的边界，可以有以下方案

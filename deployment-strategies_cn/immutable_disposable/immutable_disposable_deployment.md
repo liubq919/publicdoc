@@ -30,7 +30,7 @@
 #### 实现方案：
 
 ##### AWS
-基于不同的边界，有多种方案，详细说明请参考AWS_Blue_Green_Deployments的[whitepaper](https://github.com/liubq919/AWS_Blue_Green_Deployments_cn)。
+基于不同的边界，有多种方案，详细说明请参考AWS_Blue_Green_Deployments的[whitepaper](../../blue_green_deployment_on_aws/README.md)。
 - DNS - 部署一套使用新基础AMI的集群，部署服务，然后切换DNS解析
 - 新autoscalling - 在同一个ELB下，新创建一个autoscalling group，然后再通过伸缩更新旧autoscalling group
 - 更新autoscalling的AMI - 更新autoscalling的AMI，扩大autoscalling group容量，在新创建的EC2上部署服务，再收缩容量，移除旧版的EC2，直到完全替换
