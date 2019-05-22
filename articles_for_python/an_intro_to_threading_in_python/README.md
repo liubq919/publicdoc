@@ -667,3 +667,38 @@ __init __()初始化这三个成员，然后在.consumer_lock上调用.acquire()
 
 一旦consumer获得了.consumer_lock，它就会复制.message中的值，然后在.producer_lock上调用.release()。释放此锁，允许生产者将下一条消息插入pipeline中。
 
+在继续.set_message()之前，.get_message()中有一些微妙的东西很容易被遗漏。它似乎很容易获取消息，只需以return self.message结束函数。在继续之前，看看你是否可以找出你不想这样做的原因。
+
+答案是这样的。consumer一旦调用.producer_lock.release()后，它可能会被交换出去，producer开始运行。这一切可能在.release()返回之前发生！
+
+这意味着，当函数返回self.message时，存在一种微小的可能性，这实际上可能是**下一个生成的消息**，因此你将丢失第一个消息。这是竞态条件的另一个例子。
+
+转到.set_message()，你可以看到事务的另一面。producer通过消息调用此方法，获取.producer_lock，设置.message，然后对consumer_lock调用.release()，允许consumer读取.message的值。
+
+让我们运行代码，并将日志设置为WARNING，看看它是什么样子的：
+
+```shell
+$ ./prodcom_lock.py
+Producer got data 43
+Producer got data 45
+Consumer storing data: 43
+Producer got data 86
+Consumer storing data: 45
+Producer got data 40
+Consumer storing data: 86
+Producer got data 62
+Consumer storing data: 40
+Producer got data 15
+Consumer storing data: 62
+Producer got data 16
+Consumer storing data: 15
+Producer got data 61
+Consumer storing data: 16
+Producer got data 73
+Consumer storing data: 61
+Producer got data 22
+Consumer storing data: 73
+Consumer storing data: 22
+```
+
+首先，您可能会觉得奇怪，生产者甚至在消费者运行之前就得到了两条消息。
