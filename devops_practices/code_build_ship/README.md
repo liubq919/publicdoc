@@ -58,7 +58,7 @@
 
 #### 规范化的部署流程
 
-![2](images/ansible-flow.jpg)
+![3](images/ansible-flow.jpg)
 
 上图，我们通过ansible，在应用服务器上完成了对应用的部署：  
 - 通过yum服务器，我们可以直接使用上述步骤中所生成的rpm包
