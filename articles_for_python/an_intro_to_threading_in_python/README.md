@@ -701,4 +701,4 @@ Consumer storing data: 73
 Consumer storing data: 22
 ```
 
-首先，您可能会觉得奇怪，生产者甚至在消费者运行之前就得到了两条消息。
+首先，你可能会觉得奇怪，producer甚至在consumer运行之前就得到了两条消息。
