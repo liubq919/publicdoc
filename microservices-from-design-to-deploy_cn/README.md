@@ -2,6 +2,10 @@
    <img width="200" src="mdd.png">
 </p>
 
+<p align="center">
+   <img width="400" src="images/cover.png">
+</p>
+
 [前言](foreword.md)
 
 ##### [1: 微服务介绍](chapter1.md)
