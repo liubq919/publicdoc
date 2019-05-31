@@ -1,5 +1,9 @@
 # AWS的蓝/绿部署
 
+<p align="center">
+   <img width="400" src="images/cover.png">
+</p>
+
 ## 目录
 - [摘要](abstract.md)
 - [介绍](introduction.md)
