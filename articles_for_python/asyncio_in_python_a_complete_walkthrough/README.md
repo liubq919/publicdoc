@@ -152,3 +152,56 @@ if __name__ == "__main__":
     print(f"{__file__} executed in {elapsed:0.2f} seconds.")
 ```
 
+当执行此文件时，请注意与仅使用def和time.sleep()定义函数时看起来不同的内容：
+
+```shell
+$ python3 countasync.py
+One
+One
+One
+Two
+Two
+Two
+countasync.py executed in 1.01 seconds.
+```
+
+此输出的顺序是async IO的核心。与count()的每个调用通信是单个事件循环或协调器。当每个任务到达等待asyncio.sleep(1)时，该函数会向事件循环大喊并将控制权交还给它，说：“我将要睡1秒钟。 在此期间，继续做其他有意义的工作。”
+
+将此与同步版本进行对比：
+
+```Python
+#!/usr/bin/env python3
+# countsync.py
+
+import time
+
+def count():
+    print("One")
+    time.sleep(1)
+    print("Two")
+
+def main():
+    for _ in range(3):
+        count()
+
+if __name__ == "__main__":
+    s = time.perf_counter()
+    main()
+    elapsed = time.perf_counter() - s
+    print(f"{__file__} executed in {elapsed:0.2f} seconds.")
+```
+
+执行时，在顺序和执行时间上有细微但关键的变化:
+
+```shell
+$ python3 countsync.py
+One
+Two
+One
+Two
+One
+Two
+countsync.py executed in 3.01 seconds.
+```
+
+虽然使用time.sleep()和asyncio.sleep()看起来很普通，但是它们可以替代任何涉及等待时间的时间密集型进程。
