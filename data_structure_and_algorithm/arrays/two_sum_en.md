@@ -9,6 +9,8 @@ Given nums = [2, 77, 11, 15], target = 9
 because nums[0] + nums[1] == 2 + 7 = 9
 return [0, 1]
 
+![two_sum](images/two_sum.png)
+
 program structure:
 
 ```java
