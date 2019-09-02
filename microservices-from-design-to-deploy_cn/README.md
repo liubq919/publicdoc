@@ -1,8 +1,4 @@
 <p align="center">
-   <img width="200" src="mdd.png">
-</p>
-
-<p align="center">
    <img width="400" src="images/cover.png">
 </p>
 
