@@ -2,6 +2,10 @@
    <img width="400" src="images/cover.png">
 </p>
 
+## 原文
+- [pdf](Microservices_Designing_Deploying.pdf)  
+- [word](Microservices_Designing_Deploying.doc)
+
 [前言](foreword.md)
 
 ##### [1: 微服务介绍](chapter1.md)
