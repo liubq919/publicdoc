@@ -19,9 +19,6 @@
 
 | 标题                          |
 | ---------------------------- |
-| [堡垒机自助化申请](bhapp-doc/README.md)         |
-| [端口扫描及服务识别](scan/README.md) |
 | [发布模式](deployment-strategies_cn/README.md) |
 | [Devops实践](devops_practices/README.md) |
-| [Ansible实践](ansible_practices/README.md) |
 

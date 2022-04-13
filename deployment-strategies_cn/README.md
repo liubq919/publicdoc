@@ -50,11 +50,11 @@
 
 |部署方案| 部署速度 |  资源消耗  | Downtime  | 回滚时间  | 对用户的负面影响| 目标用户|
 |-------| -------| ---------| --------| --------| --------|--------|
-| 就地部署 | :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: |  :sun_with_face:   | :o:   | :sun_with_face: | :o:  | :x: | 
-| 滚动部署 | :sun_with_face: :sun_with_face:  |  :sun_with_face:   | :x:   | :sun_with_face: :sun_with_face: :sun_with_face: | :x: | :x:|
-| 蓝绿部署 | :sun_with_face: :sun_with_face: :sun_with_face:  |  :sun_with_face: :sun_with_face: | :x:   | :sun_with_face: | :x: | :x: |
-| 重建部署 | :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: :sun_with_face: |  :sun_with_face: | :o:  | :sun_with_face: :sun_with_face: | :o: | :x: |
-| 红黑部署 | :sun_with_face: :sun_with_face: :sun_with_face:  |  :sun_with_face: :sun_with_face: :sun_with_face:   | :x:   | :sun_with_face: | :x: | :x: |
-| 金丝雀部署 | :sun_with_face: :sun_with_face: :sun_with_face:  |  :sun_with_face: :sun_with_face: | :x:   | :sun_with_face: | :x: | :x: |
-| 不可变/用完及丢弃部署 | :sun_with_face: |  :sun_with_face: :sun_with_face:| :x: | :sun_with_face: :sun_with_face: :sun_with_face:| :x: | :x: |
-| A/B部署 | :sun_with_face: :sun_with_face: :sun_with_face:  |  :sun_with_face: :sun_with_face:  | :x:   | :sun_with_face:  | :x: | :o: |
+| 就地部署 | 🌞🌞🌞🌞🌞  | ⭕   | 🌞 | 🌞  | ❌ | ❌|
+| 滚动部署 | 🌞🌞🌞  |  ⭕⭕   | ❌   | 🌞🌞🌞 | ❌ | ❌|
+| 蓝绿部署 | 🌞  |  ⭕⭕⭕ | ❌   | 🌞 | ❌ | ❌|
+| 重建部署 | 🌞🌞🌞🌞🌞 |  ⭕ | 🌞  | 🌞🌞🌞 | ⭕ | ❌|
+| 红黑部署 | 🌞  |  ⭕⭕⭕   |  ❌  | 🌞🌞🌞 | ❌ | ❌|
+| 金丝雀部署 | 🌞  |  ⭕⭕⭕ | ❌   | 🌞🌞🌞 | ❌ | ❌|
+| 不可变/用完及丢弃部署 | ⭕⭕ | ❌| ❌ | 🌞🌞🌞| ❌ | ❌|
+| A/B部署 | 🌞  |  ⭕⭕⭕  | ❌   | 🌞🌞🌞  | ❌ | ⭕
