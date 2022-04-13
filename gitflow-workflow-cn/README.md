@@ -9,7 +9,7 @@ Gitflow实际上只是一个Git工作流的抽象概念。这意味着它决定�
 
 #### 原理
 
-![1](images/image1.svg)）
+![1](images/image1.jpg)）
 
 ##### Develop与Master分支
 
@@ -47,7 +47,7 @@ $ git branch
 
 每个新功能都应驻留在自己的分支中，可以将其推送到[中央存储库](https://www.atlassian.com/git/tutorials/syncing/git-push)以进行备份/协作。但是，*feature*不基于*master*来创建分支，而是将*develop*作为其父分支。 *feature*完成后，它将合并回*develop*。*Feature*不应该直接与*master*交互。
 
-![2](images/image2.svg)）
+![2](images/image2.jpg)）
 
 注意，结合*develop*分支的*feature*分支实际上是Feature Branch工作流。但是，Gitflow工作流并不止于此。
 
@@ -81,7 +81,7 @@ git flow feature finish feature_branch
 
 #### Release分支
 
-![3](images/image3.svg)）
+![3](images/image3.jpg)）
 
 一旦*develop*分支为发布获得了足够多的功能（或预定的发布日期即将到来），就可以从*develop*分支派生一个*release*分支。创建此分支将启动下一个发布周期，因此在此之后不能添加任何新特性，只能有错误修复，文档生成和其他以发布为中心的任务才能进入该分支。一旦准备好发布，*release*分支将合并到*master*分支并标记版本号。 此外，它应该合并回到*develop*分支中，自发布以来可能（develop分支）已经取得了进展。
 
@@ -119,7 +119,7 @@ git flow release finish '0.1.0'
 ```
 
 #### Hotfix分支
-![3](images/image4.svg)）
+![3](images/image4.jpg)）
 
 维护或*hotfix*分支用于快速修补生产版本。*hotfix*分支很像*release*分支和*feature*分支，只不过它们是基于*master*而不是*develop*。这是唯一应该直接从*master*上fork的分支。一旦修复完成，就应该将其合并到*master*和*develop*(或当前*release*分支)中，并且应该用更新的版本号标记*master*分支。
 
