@@ -1,3 +1,0 @@
-- hosts:  postgresql-service-a
-  roles:
-    - postgresql-v1

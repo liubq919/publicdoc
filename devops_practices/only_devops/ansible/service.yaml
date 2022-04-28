@@ -1,5 +1,0 @@
-- hosts: service-a
-  serial: 1
-  roles:
-    - service-a
-    - { role: jetty-v1, tags: ['jetty'] }
