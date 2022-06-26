@@ -24,3 +24,6 @@ DevOps团队：
 <p align="center">
    <img src="tradition_platform.jpg">
 </p>
+
+该发布平台架构简单，但是会有一下下几种问题：  
+1. 
