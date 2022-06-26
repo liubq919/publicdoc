@@ -65,5 +65,3 @@
 - 通过ansible playbook，完成复杂的一系列操作
 - 应用启动所需的包与配置，都不需要保存在应用服务器上
 - 无论是添加还是删除应用服务器，应用的部署都不受到影响
-
-有兴趣的读者，可以参考[Devops角色](../only_devops/README.md)关于ansible role的使用案例。

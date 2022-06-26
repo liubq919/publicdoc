@@ -19,6 +19,6 @@
 
 | 标题                          |
 | ---------------------------- |
+| [DevOps云原生一体化](devops_one/README.md) |
 | [发布模式](deployment-strategies_cn/README.md) |
-| [Devops实践](devops_practices/README.md) |
-
+| [DevOps实践](devops_practices/README.md) |
