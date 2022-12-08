@@ -48,7 +48,7 @@
 
 ### 下一代
 
-当项目越来越多，扩展性要求更高的情况下，我们设计了下一代发布平台，
+当项目越来越多，扩展性要求更高的情况下，我们设计了下一代发布平台, [工程部署的数据结构](structure.md)
 <p align="center">
    <img src="deployment_platform.jpg">
 </p>
