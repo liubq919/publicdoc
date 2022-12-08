@@ -72,7 +72,7 @@
 5. 易控制性 - 部署平台作为中央管理，可以精确控制项目与物理资源，以及提供多维度的业务指标数据
 6. 配置清晰
 
-#### 独立的配置工程 - 使用**gitlab project**工程存放配置文件,可以参考
+#### 独立的配置工程 - 使用gitlab project工程存放配置文件,可以参考[config目录](config/README.md)
 
 <p align="center">
    <img src="config-structure.png">
