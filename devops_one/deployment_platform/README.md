@@ -53,6 +53,10 @@
    <img src="deployment_platform.jpg">
 </p>
 
+<p align="center">
+   <img src="project-structure.png">
+</p>
+
 以项目A做例，该项目不同分支部署到不同的物理资源，在规划部署平台的入口标准时，一定要统一规划好分支管理，可以参考[Gitflow 工作流](../../gitflow-workflow-cn/README.md)
 
 | 分支                          | 资源                                                          |
