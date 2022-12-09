@@ -103,7 +103,7 @@
 ---
 
 ## 部署结果反馈
-    在监控中关联本次部署的元数据，如分支，pipelineID，jobID等
+    在监控中关联本次部署的元数据，如分支，pipelineID，jobID,以及用户自定义的属性等
 
 <p align="center">
    <img src="pod_list.png">
