@@ -17,10 +17,10 @@
 
 #### 原创系列
 
-| 标题                          |
-| ---------------------------- |
-| [DevOps云原生一体化](devops_one/README.md) |
+| 标题                                         |
+|--------------------------------------------|
+| [DevOps平台工程](devops_platform/README.md)    |
 | [发布模式](deployment-strategies_cn/README.md) |
-| [DevOps实践](devops_practices/README.md) |
+| [DevOps实践](devops_practices/README.md)     |
 
 注：原创系列，版权所有
