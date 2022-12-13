@@ -10,7 +10,7 @@
    <img src="func_overview.png">
 </p>
 
-2. 活动 - 根据服务与版本获取pod的进出记录
+2. 活动 - 根据服务与版本获取pod的进出记录, 具体功能可以查看[服务运营状态分析平台-开发团队](../tracing_platform/developer/README.md)
 <p align="center">
    <img src="func_activities.png">
 </p>
@@ -19,7 +19,6 @@
 <p align="center">
    <img src="func_logging.png">
 </p>
-
 
 4. 监控 - 多维度多角度展示资源的状态
 <p align="center">
