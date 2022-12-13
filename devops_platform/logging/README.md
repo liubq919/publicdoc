@@ -29,14 +29,20 @@
 #### 半自研方案
 
 ##### 日志采集客户端
-基于摄于的[promtail](https://grafana.com/docs/loki/latest/clients/promtail/)方案，简化其架构，优化某些数据结构
+基于的[promtail](https://grafana.com/docs/loki/latest/clients/promtail/)方案，简化其架构，优化数据结构
 
 ##### 日志架构
 <p align="center">
    <img src="hh-logging.jpg">
 </p>
 
-1. 存入到Cassandra的日志，将数据存放至**loggings**表，两个物化试图，**search_logging**与**trace_logging**将根据base表，logging自动更新其中的内容  
+
+##### 持久化端的数据库设设计
+<p align="center">
+   <img src="tracedLogging.jpg">
+</p>
+
+1. 存入到Cassandra的日志，将数据存放至**loggings**表，两个物化视图，**search_logging**与**trace_logging**将根据base表，logging自动更新其中的内容  
 2. **search_logging**适用于搜索特定服务特定版本下在某一时间区间内的日志  
 3. **trace_logging**适用于根据traceid与spanid精确定位到与traceid以及spanid关联的日志  
 <p align="center">
@@ -54,7 +60,7 @@
    <img src="logging_qty_group.png">
 </p>
 
-#### 采集客户端 - 日志产生的时间，日志被采集的时间，日志被消费的时间以及他们之间的时间差
+#### 采集客户端 - 日志产生的时间，全链路日志端到端监控，日志被采集的时间，日志被消费的时间以及他们之间的时间差
 <p align="center">
    <img src="logging_consumer_gap.png">
 </p>
