@@ -15,8 +15,12 @@
 | [Python 系列章节](articles_for_python/README.md) |  Acticles for Python|
 | [数据结构与算法](data_structure_and_algorithm/README.md) |  Data Structure and Algorithms|
 
-#### 原创系列
+#### 优秀的DevOps文章
+1. [今天很多 CTO 都是被干掉的，因为他没有成就业务](https://mp.weixin.qq.com/s/LFTDSkK4Vvna0mtdRDgi7A)
+2. [为什么DevOps和SRE职位这么难招人？](https://mp.weixin.qq.com/s/87mS-eyteXlNjbpKe1OSeA)
 
+
+#### 原创系列
 | 标题                                         |
 |--------------------------------------------|
 | [DevOps平台工程](devops_platform/README.md)    |
@@ -24,7 +28,3 @@
 | [DevOps实践](devops_practices/README.md)     |
 
 注：原创系列，版权所有
-
-#### 优秀的DevOps文章
-1. [今天很多 CTO 都是被干掉的，因为他没有成就业务](https://mp.weixin.qq.com/s/LFTDSkK4Vvna0mtdRDgi7A)
-2. [为什么DevOps和SRE职位这么难招人？](https://mp.weixin.qq.com/s/87mS-eyteXlNjbpKe1OSeA)

@@ -15,7 +15,7 @@
 </p>
 
 #### 链路 - 服务响应span分布
-    一段时间内，以api分株，统计链路过长的请求
+    一段时间内，以api分组，统计链路过长的请求
 <p align="center">
    <img src="apis_group_span.png">
 </p>
