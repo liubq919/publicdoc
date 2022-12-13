@@ -5,7 +5,7 @@
 
 ### 功能介绍
 
-1. 概览 - 从宏观与微观上查看服务运行的状态
+1. 概览 - 从宏观与微观上查看服务运行的状态, 具体功能可以查看[服务运营状态分析平台](../tracing_platform/README.md)
 <p align="center">
    <img src="func_overview.png">
 </p>
