@@ -2,6 +2,10 @@
     这一章节中，我们将提供更细粒度的数据重现。
     不仅仅是链路，更能提供该次请求上的所有数据
 
+<p align="center">
+   <img src="tracing_platform.jpg">
+</p>
+
 ### kubernetes pod进出记录
     以版本分类，记录该版本下所有pod的进出记录
 
