@@ -15,16 +15,26 @@
 | [Python 系列章节](articles_for_python/README.md) |  Acticles for Python|
 | [数据结构与算法](data_structure_and_algorithm/README.md) |  Data Structure and Algorithms|
 
-#### 优秀的DevOps文章
+#### 推荐系列
+
+###### 文章
 1. [今天很多 CTO 都是被干掉的，因为他没有成就业务](https://mp.weixin.qq.com/s/LFTDSkK4Vvna0mtdRDgi7A)
 2. [为什么DevOps和SRE职位这么难招人？](https://mp.weixin.qq.com/s/87mS-eyteXlNjbpKe1OSeA)
 
+###### 论文
+1. [Graph-Based Trace Analysis for Microservice Architecture Understanding and Problem Diagnosis](https://mp.weixin.qq.com/s/LFTDSkK4Vvna0mtdRDgi7A)
 
 #### 原创系列
+
+##### 文章
 | 标题                                         |
 |--------------------------------------------|
 | [DevOps平台工程](devops_platform/README.md)    |
 | [发布模式](deployment-strategies_cn/README.md) |
 | [DevOps实践](devops_practices/README.md)     |
+
+##### 论文
+1. [基于istio链路跟踪的拓展思考](self-made/thesis/extended-trace-based-on-istio/README.md)
+
 
 注：原创系列，版权所有
