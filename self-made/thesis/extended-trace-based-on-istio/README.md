@@ -129,14 +129,14 @@
 上图阐述了某时间范围内，具体服务的具体版本被访问的api分布图。  
 **从开发人员的角度，api被调用了就是api被访问了，而从业务人员的角度，api被访问，就是某些服务的具体功能被请求了，通过这一张图，再配合具体的说明，可以定位到每一个服务有哪些功能被使用**
 
-- ##### 被访问的api分布饼状图
+- ##### 客户端视角api请求概况
 上图是从服务端角度来看分布，我们有时候想知道一个具体服务的某些版本访问了哪些外部服务以及情况分布
 <div align="center">
 <img src=images/api-share-client-side.png width="80%"/>
 </div>
 上述阐述了某时间范围内，istio-tracing-order服务的build_174606版本访问了hd-demo下的istio-tracing-paymeng服务,以及请求服务的api分布，状态码响应分布
 
-- ##### 被访问的api分布饼状图
+- ##### api被访问增长情况
 知道了服务被请求的api分布，这个时候我们想知道具体api被请求的时序变化，如增长量变化等
 <div align="center">
 <img src=images/api-request-growth.png width="80%"/>
