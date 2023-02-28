@@ -36,7 +36,7 @@
 
 ##### 论文
 1. [基于istio链路跟踪的拓展思考](self-made/thesis/extended-trace-based-on-istio/README.md)
-2. [微服务下的日志](self-made/thesis/extended-trace-based-on-istio/README.md)
+2. [微服务下的日志](self-made/thesis/logging-based-on-micro-services/README.md)
 
 
 注：原创系列，版权所有
