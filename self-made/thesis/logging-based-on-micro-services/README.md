@@ -92,3 +92,8 @@
     <img src=images/traced-logging-2.png width="80%"/>
 </div>
 上面的两张图，点击日志链接后，展示了istio-tracing-mall与istio-tracing-payment在处理这一笔请求时所产生的具体日志。
+
+### 总结
+
+我们实现了横向上串联日志的能力，让用户可以从另一个视角上去立刻定位日志。  
+在资源使用上，与传统的elasticsearch相比，可以做到其资源使用量的1/6,在功能上，提供了elasticsearch不具备的横向能力。  
