@@ -217,7 +217,8 @@
 <img src=images/response-data.png width="80%"/>
 </div>
 
-上述两张图分别为请求头/体与响应头/体的详情。
+上述两张图分别为请求头/体与响应头/体的详情。  
+参考[微服务下的日志](../logging-based-on-micro-services/README.md)根据traceid与spanid获取日志
 
 ### 总结
 

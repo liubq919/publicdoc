@@ -32,17 +32,17 @@
 #### 半自研方案
 
 ##### 日志采集客户端
-基于的[promtail](https://grafana.com/docs/loki/latest/clients/promtail/)方案，简化其架构，优化数据结构
+基于[promtail](https://grafana.com/docs/loki/latest/clients/promtail/)方案，简化其架构，优化数据结构
 
 ##### 日志架构
 <p align="center">
-   <img src="images/hh-logging.jpg">
+   <img src="images/hh-logging.jpg" width="90%">
 </p>
 
 
 ##### 持久化端的数据库设设计
 <p align="center">
-   <img src="images/traced-logging.jpg">
+   <img src="images/traced-logging.jpg" width="90%">
 </p>
 
 1. 存入到Cassandra的日志，将数据存放至**loggings**表，两个物化视图，**search_logging**与**trace_logging**将根据base表，logging自动更新其中的内容
@@ -53,17 +53,42 @@
 </p>
 
 ### 日志平台功能概览
+
+- 报表
 <p align="center">
    <img src="images/overview.png">
 </p>
 
-下面我们将重点介绍某些图表
-#### 报表统计，从多个角度统计日志的产生量，如pod产生的日志行数排行，以项目分组哪个项目产生的日志量多等等
+
+#### pod报表统计
+    pod日志变化量
 <p align="center">
-   <img src="images/logging_qty_group.png">
+   <img src="images/pod-logging.png" width="90%">
 </p>
 
-#### 采集客户端 - 日志产生的时间，全链路日志端到端监控，日志被采集的时间，日志被消费的时间以及他们之间的时间差
+#### 采集客户端
+    日志产生的时间，全链路日志端到端监控，日志被采集的时间，日志被消费的时间以及他们之间的时间差
 <p align="center">
-   <img src="images/logging_consumer_gap.png">
+   <img src="images/logging-consumer-line.png" width="90%">
 </p>
+
+- 查询
+#### 获取pod详情
+    配置与日志
+<p align="center">
+   <img src="images/pod-detail.png" width="90%">
+</p>
+
+#### 根据tarceid获取日志
+<div align="center">
+    <img src=images/trace-detail-with-link.png width="80%"/>
+</div>
+
+在[基于istio链路跟踪的拓展思考](../extended-trace-based-on-istio/README.md)中，我们可以根据traceid获取链路跟踪详情，包括请求头请求体。由于日志持久化时，我们根据traceid与相应属性做了物化视图，因此可以做到根据traceid与spanid立刻定位到具体日志。    
+<div align="center">
+    <img src=images/traced-logging-1.png width="80%"/>
+</div>
+<div align="center">
+    <img src=images/traced-logging-2.png width="80%"/>
+</div>
+上面的两张图，点击日志链接后，展示了istio-tracing-mall与istio-tracing-payment在处理这一笔请求时所产生的具体日志。
