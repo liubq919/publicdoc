@@ -1,6 +1,6 @@
 ## 功能概览
 <p align="center">
-   <img src="overview.png">
+   <img src="group-menu.png">
 </p>
 
 ### 功能介绍

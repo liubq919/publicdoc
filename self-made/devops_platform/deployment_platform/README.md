@@ -37,7 +37,7 @@
 
 目前很多公司的开发平台，都是直接对接服务运行平台，如下图：
 <p align="center">
-   <img src="tradition_platform.jpg">
+   <img src="images/tradition_platform.jpg">
 </p>
 
 该发布平台架构简单，也是我们的第一版发布系统，基于ansible，灵活快速， 但是会有以下几种问题：
@@ -52,11 +52,11 @@
 注明： [部署工程的数据结构](structure.md)
 
 <p align="center">
-   <img src="deployment_platform.jpg">
+   <img src="images/deployment_platform.jpg">
 </p>
 
 <p align="center">
-   <img src="project-structure.png">
+   <img src="images/project-structure.png">
 </p>
 
 以项目A做例，该项目不同分支部署到不同的物理资源，在规划部署平台的入口标准时，一定要统一规划好分支管理，可以参考[Gitflow 工作流](../../gitflow-workflow-cn/README.md)
@@ -81,7 +81,7 @@
 #### 独立的配置工程 - 使用gitlab project工程存放配置文件,可以参考[config目录](config/README.md)
 
 <p align="center">
-   <img src="config-structure.png">
+   <img src="images/config-structure.png">
 </p>
 
 灵活支持滚动发布，灰度发布等任意发布模式下的配置文件管理
@@ -91,7 +91,7 @@
 ## 宏观概览
     各维度查看工程的部署状态
 <p align="center">
-   <img src="platform-metrics.png">
+   <img src="images/platform-metrics.png">
 </p>
 
 ---
@@ -99,7 +99,7 @@
 ## 统一消息通知平台
     任何联动消息都通过IM工具发送给相应的人员
 <p align="center">
-   <img src="msg-platform.png">
+   <img src="images/msg-platform.png">
 </p>
 
 ---
@@ -108,5 +108,5 @@
     在监控中关联本次部署的元数据，如分支，pipelineID，jobID,以及用户自定义的属性等
 
 <p align="center">
-   <img src="pod_list.png">
+   <img src="images/pod_list.png">
 </p>

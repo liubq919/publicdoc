@@ -21,6 +21,7 @@
 1. [今天很多 CTO 都是被干掉的，因为他没有成就业务](https://mp.weixin.qq.com/s/LFTDSkK4Vvna0mtdRDgi7A)
 2. [为什么DevOps和SRE职位这么难招人？](https://mp.weixin.qq.com/s/87mS-eyteXlNjbpKe1OSeA)
 3. 覆盖数万研发人员，字节跳动首次公开效能度量核心技术！[link1](https://www.infoq.cn/article/oiYyLTdpp4Yx1iFhs4A8) [link2](https://mp.weixin.qq.com/s/46KsJiqbMm5nGCr4WyXDOQ)
+4. [DevOps 已死，平台工程才是未来](https://www.infoq.cn/article/7porVp7qVF03BVc2tDd6)
 
 ###### 论文
 1. [Graph-Based Trace Analysis for Microservice Architecture Understanding and Problem Diagnosis](https://mp.weixin.qq.com/s/d5M6PStK_JBbPAT6DpKnfg) [论文链接](recommended/thesis/esecfse20in-trace/esecfse20in-trace.pdf)
