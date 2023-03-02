@@ -139,7 +139,7 @@
 <div align="center">
 <img src=images/api-share-client-side.png width="80%"/>
 </div>
-上述阐述了某时间范围内，istio-tracing-order服务的build_174606版本访问了hd-demo下的istio-tracing-paymeng服务,以及请求服务的api分布，状态码响应分布
+上述阐述了某时间范围内，istio-tracing-bill服务的build_175081版本访问了hd-demo下的istio-tracing-payment服务,以及请求服务的api分布，状态码响应分布
 
 - ##### api被访问增长情况
 知道了服务被请求的api分布，这个时候我们想知道具体api被请求的时序变化，如增长量变化等
