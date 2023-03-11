@@ -5,12 +5,12 @@
 
 ### 功能介绍
 
-1. 概览 - 从宏观与微观上查看服务运行的状态, 具体功能可以查看[服务运营状态分析平台](../tracing_platform/README.md)
+1. 概览 - 从宏观与微观上查看服务运行的状态
 <p align="center">
    <img src="func_overview.png">
 </p>
 
-2. 活动 - 根据服务与版本获取pod的进出记录, 具体功能可以查看[服务运营状态分析平台-开发团队](../tracing_platform/developer/README.md)
+2. 活动 - 根据服务与版本获取pod的进出记录
 <p align="center">
    <img src="func_activities.png">
 </p>
