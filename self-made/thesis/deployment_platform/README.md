@@ -94,7 +94,7 @@
 
 ---
 
-## 宏观概览
+#### 宏观概览
     各维度查看工程的部署状态
 <p align="center">
    <img src="images/platform-metrics.png">
@@ -102,7 +102,7 @@
 
 ---
 
-## 统一消息通知平台
+#### 统一消息通知平台
     任何联动消息都通过IM工具发送给相应的人员
 <p align="center">
    <img src="images/msg-platform.png">
@@ -110,7 +110,7 @@
 
 ---
 
-## 部署结果反馈
+#### 部署结果反馈
     在监控中关联本次部署的元数据，如分支，pipelineID，jobID,以及用户自定义的属性等
 
 <p align="center">
