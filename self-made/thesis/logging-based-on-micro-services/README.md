@@ -5,9 +5,8 @@
 服务架构，从传统的单体服务已经进化到今天的微服务，以及下一代的无服务器架构。  
 但是在日志的查询中，大部分的公司还是继承了单体服务的查询思路，使用elasticsearch作为日志引擎，es在使用上往往有以下几个问题，
 
-1. 根据关键字搜索问题，在互联网下，每天服务的请求是巨量的，根据关键字搜索到的内容往往包含了太多的无关内容
-2. 微服务架构下，一个请求往往需要经过几个服务，如果要复原此次请求下所有服务在处理此次请求所产生的日志，需要逐个定位具体服务，然后在根据关键字去搜索，繁琐且效率低
-3. elasticsearch是基于内容搜索，资源消耗量大
+1. 微服务架构下，一个请求往往需要经过几个服务，如果要复原此次请求下所有服务在处理此次请求所产生的日志，需要逐个定位具体服务，然后在根据关键字去搜索，繁琐且效率低
+2. elasticsearch是基于内容搜索，资源消耗量大
 
 <div align="center">
 <img src=images/traditional-logging.png width="90%"/>
@@ -32,25 +31,25 @@
 #### 半自研方案
 
 ##### 日志采集客户端
-基于[promtail](https://grafana.com/docs/loki/latest/clients/promtail/)方案，简化其架构，优化数据结构
+基于[ilogtail](https://github.com/alibaba/ilogtail)，经过我们的测试，ilogtail在性能上远超过其他agent组件；
 
 ##### 日志架构
 <p align="center">
-   <img src="images/hh-logging.jpg" width="90%">
+   <img src="images/hh-logging.jpeg" width="90%">
 </p>
 
-
-##### 持久化端的数据库设设计
 <p align="center">
    <img src="images/traced-logging.jpg" width="90%">
 </p>
 
-1. 存入到Cassandra的日志，将数据存放至**loggings**表，两个物化视图，**search_logging**与**trace_logging**将根据base表，logging自动更新其中的内容
-2. **search_logging**适用于搜索特定服务特定版本下在某一时间区间内的日志
-3. **trace_logging**适用于根据traceid与spanid精确定位到与traceid以及spanid关联的日志
-<p align="center">
-   <img src="images/tables.png">
-</p>
+##### 持久化端的数据库设设计
+
+在经过大量的后端存储方案调研后，我们选择了Doris作为日志后端存储方案，Doris有以下几个特点：
+1. 架构简单易维护，可以支持海量水平扩展；
+2. 支持远程对象存储，如S3等；
+3. 高效的压缩比，日志经过压缩后，明显低于elasticsearch；
+4. 倒排索引，支持高效的基于内容的搜索，在海量数据中可以做到快速搜索；
+5. 列式存储以及前缀索引都极大的极高了数据定位的速度；
 
 ### 日志平台功能概览
 
