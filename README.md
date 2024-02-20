@@ -42,7 +42,7 @@
 1. [可观测性 - 基于istio链路跟踪的拓展思考](self-made/thesis/extended-trace-based-on-istio/README.md)
 2. [日志 - 对微服务下日志的思考](self-made/thesis/logging-based-on-micro-services/README.md)
 3. [发布平台](self-made/thesis/logging-based-on-micro-services/README.md)
-4. [灰度发布平台](self-made/thesis/logging-based-on-micro-services/README.md)
+4. [灰度发布平台](self-made/thesis/canary-deployment-platform/README.md)
 
 
 注：原创系列，版权所有

@@ -33,7 +33,7 @@
 
 ## 部署平台
 
-### 现状
+### 第一代 - ansible
 
 目前很多公司的开发平台，都是直接对接服务运行平台，如下图：
 <p align="center">
@@ -46,14 +46,20 @@
 2. 部署平台与服务运行载体耦合性强，如后续需要支持knative等，需要重新构造
 3. 使用ansible有一定的学习成本，配置文件中包含除应用外的其他配置
 
-### 下一代
+### 第二代 - Api调用
+当项目数据逐渐庞大后，我们发现
+1. 每一次kubernetes以及组件（istio）的升级与迁移，我们需要修改众多脚本以及ci配置；
+2. 我们需要支持灵活的分支策略，如gitflow，单master等；
+3. 平台化的数字建设 - 我们希望能多维度的获取ci与cd每一个步骤的数据输出；
 
-当项目越来越多，扩展性要求更高的情况下，我们设计了下一代发布平台  
+在经历过团队调研后，我们构建了第二代发布平台：
+1. 构建自助式的元数据交互 - 开发，业务，DevOps等相关人员通过自助式的交互完成每一个阶段的元数据提交；
+2. 元数据与部署平台 - 包含所有服务的元数据，可以为其他平台提供数据支撑；
+3. 适配层 - 将每一次发布的信息，经过适配层翻译后可以部署到不同版本的Kubernetes与istio；
+
 注明： [部署工程的数据结构](structure.md)
 
-<p align="center">
-   <img src="images/deployment_platform.jpg">
-</p>
+![deployment_platform_2nd.jpeg](images%2Fdeployment_platform_2nd.jpeg)
 
 <p align="center">
    <img src="images/project-structure.png">
@@ -110,3 +116,17 @@
 <p align="center">
    <img src="images/pod_list.png">
 </p>
+
+
+### 第三代 - Operator
+
+在上一代API架构中，在调用相应组件（kubernetes，istio，knative）的api之前，需要将服务的元数据翻译成对应组件所认可的请求数据，当组件类型与版本众多时，适配层的管理成为了一个难题。鉴于此，我们借鉴了kubernetes的operator思想，开发了下一代部署平台，operator模式。
+
+[operator-sdk](https://sdk.operatorframework.io/)，可以开发类似于原生controller的operator。
+<p align="center">
+   <img src="images/deployment_platform_3rd.jpeg">
+</p>
+
+改进点如下：
+1. 在每一个kubernetes中部署operator，operator自己完成相应组件的适配；
+2. operator与元数据之间通过MQ进行通信；
