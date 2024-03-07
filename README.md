@@ -37,7 +37,7 @@
 | [DevOps平台工程](self-made/devops_platform/README.md) |
 | [发布模式](self-made/deployment-strategies_cn/README.md)        |
 | [DevOps实践](self-made/devops_practices/README.md)            |
-| [Knative解析]()            |
+| Knative源码解析 [gitee](https://gitee.com/liubq/knative-source-code-analysis)           |
 
 ##### 论文
 1. [可观测性 - 基于istio链路跟踪的拓展思考](self-made/thesis/extended-trace-based-on-istio/README.md)
